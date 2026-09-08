@@ -63,7 +63,7 @@ watch(
         <img
           src="/logo.png"
           alt="Wat Tepborey logo"
-          class="h-11 w-11 rounded-full border border-gold/40 object-cover"
+          class="h-14 w-14 rounded-full border border-gold/40 object-cover"
         />
         <span class="leading-tight">
           <span
@@ -87,7 +87,7 @@ watch(
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="border-b-2 pb-1 font-khmer text-[15px] font-medium transition-colors"
+          class="border-b-2 pb-1 font-khmer text-[20px] font-medium transition-colors"
           :class="
             isActive(link.to)
               ? 'border-gold text-gold'
