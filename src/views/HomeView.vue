@@ -425,13 +425,13 @@ const projects = [
 
               <!-- Image -->
 
-              <div class="relative h-72 overflow-hidden bg-cream md:h-full">
+ <div class="relative h-72 overflow-hidden bg-cream md:h-full">
 
-                <img :src="activeSlide.image_url" :alt="activeSlide.title"
-                  class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+  <img :src="activeSlide.image_url ? `https://tebpoery-backend.onrender.com${activeSlide.image_url}` : '/brasat.jpg'" 
+       :alt="activeSlide.title"
+       class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" />
 
-              </div>
-
+</div>
 
               <!-- Content -->
 
