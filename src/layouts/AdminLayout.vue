@@ -6,6 +6,7 @@ import {
   CalendarDays,
   Video,
   Image as ImageIcon,
+  HeartHandshake,
   Mail,
   Settings,
   LogOut,
@@ -22,6 +23,7 @@ const navItems = [
   { to: '/admin/events', label: 'ព្រឹត្តិការណ៍ (Events)', icon: CalendarDays },
   { to: '/admin/videos', label: 'វីដេអូ (Videos)', icon: Video },
   { to: '/admin/gallery', label: 'រូបភាព (Gallery)', icon: ImageIcon },
+  { to: '/admin/donors', label: '🙏 នាមសប្បុរស (Donors)', icon: HeartHandshake },
   { to: '/admin/messages', label: 'សារទំនាក់ទំនង (Messages)', icon: Mail },
   { to: '/admin/settings', label: 'ការកំណត់ (Settings)', icon: Settings },
 ]

@@ -12,7 +12,7 @@ const solidNav = computed(() => !isHome.value || scrolled.value || mobileOpen.va
 const navLinks = computed(() => [
   { to: '/', label: ('ទំព័រដើម ') },
   { to: '/about', label: ('អំពីវត្ត') },
-  { to: '/dhamma', label: ('សកម្មភាព') },
+  { to: '/dhamma', label: ('សប្បុរសជន') },
   { to: '/events', label: ('ព្រឹត្តិការណ៍') },
   { to: '/gallery', label: ('បណ្តុំរូបភាព') },
   { to: '/contact', label: ('ទំនាក់ទំនង') },

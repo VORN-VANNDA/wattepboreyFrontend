@@ -12,13 +12,9 @@ const { locale, t } = useLocale()
 
 const { data: members, loading: membersLoading, error: membersError, load: loadMembers } = useApiResource(() => api.get('/members'))
 const {
-  data: historyPhotos,
-  loading: historyPhotosLoading,
-  error: historyPhotosError,
-  load: loadHistoryPhotos
-} = useApiResource(() =>
-  api.get('/gallery?category=architecture')
-)
+  data: settings,
+  loading: settingsLoading,
+} = useApiResource(() => api.get('/settings'), { initial: {} })
 
 const abbot = computed(
   () => members.value.find((m) => m.is_featured) || members.value.find((m) => m.category === 'monk')
@@ -41,15 +37,16 @@ function memberRole(member) {
   return locale.value === 'en' && member.role_en ? member.role_en : member.role
 }
 
-const historyText = computed(() =>
-  locale.value === 'kh'
+// Admin-editable via Admin → ការកំណត់ (Settings). Falls back to this
+// original text if the setting hasn't been filled in yet.
+const historyText = computed(() => {
+  if (settings.value?.about_history_text) return settings.value.about_history_text
+  return locale.value === 'kh'
     ? 'វត្តទេពបុរី ស្ថិតនៅភូមិខ្នារ-ត្បែង ឃុំក្រាំងធ្នង់ ស្រុកបាទី ខេត្តតាកែវ ខាងកើតជាប់ស្រែភូមិខ្នារ ខាងលិចជាប់ភូមិត្បែង ខាងជើងជាប់ផ្លូវលំ ខាងត្បូងជាប់ចម្ការមានចំងាយ ៤៩គីឡូម៉ែត្រពីទីរួមខេត្តតាកែវ។ឈ្មោះដើមហៅវត្តទេពបុរីត្រូវបានកសាងឡើងតាំងពីឆ្នាំ១៩៥៥ដល់១៩៥៦ដោយព្រះគ្រូឃោសាវិសុទ្ធ ឡុង ឪ និងលោកអាចារ្យគណៈកម្មការព្រមទាំងពុទ្ធបរិស័ទចំណុះជើងវត្តហេតុដែលនាំឲហៅថា វត្តទេពបុរី ព្រោះមកពីចាស់ព្រឹទ្ធាចារ្យទាំងពីរភូមិគឺភូមិខ្នារ និងភូមិត្បែង បានពិភាក្សាគ្នាដាក់ឈ្មោះវត្តនេះហៅថាវត្តទេពបុរីជាផ្លូវការជាប់រហូតមកដល់បច្ចុប្បន្ន។មុនឆ្នាំ ១៩៧៥ វត្ដទេពបុរី នេះដើមឡើយ ក្រោយពីបុណ្យពាក់កណ្តាលសាសនាហើយចាស់ទុំបានពិភាក្សាគ្នាជាមួយព្រះតេជគុណព្រះនាម ឡុង ឪ វិន័យធរស្រុកបាទីបានសុំព្រះយោបល់អំពីព្រះមេគណខេត្តព្រះនាម លុក យូរ ដើម្បីផ្លាស់សុំពី អាស្រមឲទៅជាវត្តពេញសិទ្ធិក្រោមការជ្រោមជ្រែងឧបត្ថម្ភដោយពុទ្ធបរិស័ទទាំងពីរភូមិគឺភូមិខ្នារនិងភូមិត្បែងបានកសាងមានដូចជា កុដិតូច ពីរខ្នង ធ្វើអំពីឈើប្រក់ស្លឹកសាលាឆាន់ មួយខ្នងធ្វើអំពីឈើប្រក់ស្លឹកដែរព្រះវិហារមួយខ្នងធ្វើអំពីឈើប្រក់ស័ង្កសី។១៩៥៥ ដល់ ១៩៥៦ កសាងជាអាស្រមសមាធិបានទទួលការអនុញ្ញាតិធ្វើជាវត្ត ឈ្មោះហៅថា វត្តទេពបុរី។ពីឆ្នាំ១៩៥៧ដល់១៩៦០ព្រះតេជគុណ ពៅ គង់ ចៅអធិការបានកសាងកូនកុដិតូចមួយខ្នងពលៃមួយខ្នង សាលាធម្មសភាមួយខ្នងធ្វើអំពីឈើ។ពីឆ្នាំ ១៩៦០ ដល់១៩៧៥ ព្រះតេជគុណសួង សឿនចៅអធិការវត្តបានកសាងសាលាធម្មសភាជាថ្មីសាលាទទួលភ្ញៀវមួយខ្នង សាលាបឋមសិក្សាមួយខ្នង៦បន្ទប់ធ្វើអំពីថ្ម។ស្ថានភាពវត្តចាប់ពីឆ្នាំ ១៩៧៥ ដល់ឆ្នាំ ១៩៧៩ ទីវត្តអារាមនេះត្រូវរបបប្រល័យពូជសាសន៍ប៉ុលពតបានវាយកំទេចបំផ្លាញចោលអស់រាល់សមិទ្ធផលនានានៅក្នុងវត្ដ មានដូចជាកុដិព្រះវិហារ សាលាឆាន់ហើយបានចាប់ព្រះសង្ឃផ្សឹកនិងធ្វើទារុណកម្មយ៉ាងធ្ងន់ធ្ងរថែមទៀត។ក្រោយថ្ងៃរំដោះ៧មករាឆ្នាំ១៩៧៩ដល់បច្ចុប្បន្ន ក្រោមការដឹកនាំរបស់  រណសិរ្សសាមគ្គីសង្គ្រោះជាតិកម្ពុជាបច្ចុប្បន្ន រណសិរ្សសាមគ្គីបានអភិវឌ្ឍមាតុភូមិកម្ពុជាព្រះពុទ្ធសាសនាត្រូវបានបង្កើតឡើងវិញ។នៅឆ្នាំ ១៩៨៣ ព្រះតេជ - គុណព្រះនាម ឡុង សោម និងលោកអាចារ្យគណៈកម្មការរួមទាំងពុទ្ធបរិស័ទចំណុះជើងវត្ត  និងមកពីទីក្រុងភ្នំពេញព្រមទាំងពុទ្ធបរិស័ទជិតឆ្ងាយបានរៀបចំកាប់ឆ្ការព្រៃសំអាត ទីអារាមឲបានស្អាតដើម្បីចាប់ផ្តើមកសាងរាល់ សមិទ្ធផលនានា ឡើងវិញរហូតមកដល់បច្ចុប្បន្ននេះក្រោមការដឹកនាំដោយ ព្រះតេជគុណ ព្រះនាម  ភួង ម៉ិញ បានជួសជុលសាលាឆាន់កសាងព្រះវិហារកុដិ៣ខ្នងហោរត្រៃមួយខ្នងអាស្រមបារមីមួយខ្នងអាស្រមព្រះគោព្រះកែវមួយខ្នងសាលាទទួលភ្ញៀវពីរខ្នងរោងបាយមួយខ្នងរោងម៉ាស៊ីនភ្លើងមួយខ្នង សាលារៀនពីរខ្នង ស្រះទឹកមួយអណ្ដូងទឹក ៣ បង្គោលភ្លើង ៩២ ដើមចេតិយប្រាំមួយ  បន្ទប់អនាម័យបីខ្នងមាន១៣បន្ទប់របងព័ទ្ធជុំវិញរួមទាំងបានដាំដើមឈើជច្រើដើមថែមទៀតផង។ដោយឡែក ក្នុងទសវត្សរ៍ចុងក្រោយនេះ សមិទ្ធផលធំៗជាច្រើនទៀតក៏ត្រូវបានលេចចេញជារូបរាងឡើងជាបន្តបន្ទាប់ គួរជាទីមោទនៈ រួមមាន៖o	ឆ្នាំ២០១២ ដល់ ឆ្នាំ២០២៤៖ បានកសាងសាលាធម្មសភាចំនួន ១ខ្នង យ៉ាងស្កឹមស្កៃ រហូតបានរួចរាល់ជាស្ថាពរ។o	ឆ្នាំ ២០១៨៖ បានកសាងកុដិថ្មីបន្ថែមចំនួន ១ ខ្នងទៀត។o	ឆ្នាំ២០១៩៖ បានកសាងអគារសាលាអនុគណស្រុកបាទីចំនួន ១ខ្នង(កម្ពស់ ២ជាន់) ដើម្បីបម្រើដល់កិច្ចការរដ្ឋបាលសង្ឃ។o	ឆ្នាំ២០២០៖ បានចាក់សាបបេតុងរៀបចំសណ្តាប់ធ្នាប់ សម្រួលដល់ការធ្វើដំណើរនៅក្នុងបរិវេណវត្តទាំងមូល។o	ឆ្នាំ២០២២៖ បានកសាងប្រាសាទមួយដ៏ស្រស់ស្អាតសម្រាប់តម្កល់ព្រះពុទ្ធរូប ដែលទទួលបានប្រសិទ្ធនាមថា «ប្រាសាទភទ្ទកប្ប»។ទន្ទឹមនឹងសមិទ្ធផលដ៏ច្រើនសន្ធឹកសន្ធាប់ទាំងនេះ បច្ចុប្បន្នព្រះអង្គក៏កំពុងតែបន្តដឹកនាំកសាងរបងព័ទ្ធជុំវិញទីអារាម ដើម្បីលើកកម្ពស់សោភណភាព និងសន្តិសុខបន្ថែមទៀតផងដែរ។'
     : "Wat Tepborey was founded many generations ago and has long served as a spiritual and cultural refuge for local Buddhist devotees. Throughout its history, the temple has consistently prioritized the preservation and promotion of Buddhism and Cambodian heritage."
-)
+})
 
-const historyImages = computed(() =>
-  historyPhotos.value.filter((photo) => photo.image_url).slice(0, 3)
-)
+const historyImageUrl = computed(() => settings.value?.about_history_image_url || null)
 
 const goals = computed(() => {
   const kh = [
@@ -82,30 +79,27 @@ const goals = computed(() => {
   <SectionHeading :title="t('about.historyHeading')" align="start" />
 
   <p
-    class="mt-6 text-[20px] leading-[2] text-justify text-gray-600"
+    class="mt-6 whitespace-pre-line text-[20px] leading-[2] text-justify text-gray-600"
   >
     {{ historyText }}
   </p>
 </div>
 
         <aside class="lg:sticky lg:top-24 lg:self-start">
-          <div v-if="historyPhotosLoading" class="space-y-6">
-            <div v-for="n in 3" :key="n" class="aspect-[16/10] animate-pulse rounded-xl2 bg-cream" />
+          <div v-if="settingsLoading" class="space-y-6">
+            <div class="aspect-[16/10] animate-pulse rounded-xl2 bg-cream" />
           </div>
 
-          <div v-else-if="historyImages.length" class="fade-in space-y-6">
-            <figure
-              v-for="photo in historyImages"
-              :key="photo.id"
-              class="overflow-hidden rounded-xl2 bg-cream shadow-card ring-1 ring-black/5"
-            >
-              <img
-                :src="photo.image_url"
-                :alt="photo.title"
-                class="aspect-[16/10] w-full object-cover"
-              />
-            </figure>
-          </div>
+          <figure
+            v-else-if="historyImageUrl"
+            class="fade-in overflow-hidden rounded-xl2 bg-cream shadow-card ring-1 ring-black/5"
+          >
+            <img
+              :src="historyImageUrl"
+              alt="ប្រវត្តិវត្តទេពបុរី"
+              class="aspect-[16/10] w-full object-cover"
+            />
+          </figure>
 
           <!-- Fallback (no photo yet, or failed to load) — decorative section, keep it quiet -->
           <div v-else class="grid aspect-[16/10] place-items-center rounded-xl2 bg-cream text-sm text-gray-400">
