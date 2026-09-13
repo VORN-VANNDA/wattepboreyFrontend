@@ -76,29 +76,21 @@ const goals = computed(() => {
     <section class="mx-auto max-w-7xl px-5 py-20 lg:px-10">
       <div class="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.9fr)] lg:gap-16">
         <div>
-  <SectionHeading :title="t('about.historyHeading')" align="start" />
+          <SectionHeading :title="t('about.historyHeading')" align="start" />
 
-  <p
-    class="mt-6 whitespace-pre-line text-[20px] leading-[2] text-justify text-gray-600"
-  >
-    {{ historyText }}
-  </p>
-</div>
+          <p class="mt-6 whitespace-pre-line text-[20px] leading-[2] text-justify text-gray-600">
+            {{ historyText }}
+          </p>
+        </div>
 
         <aside class="lg:sticky lg:top-24 lg:self-start">
           <div v-if="settingsLoading" class="space-y-6">
             <div class="aspect-[16/10] animate-pulse rounded-xl2 bg-cream" />
           </div>
 
-          <figure
-            v-else-if="historyImageUrl"
-            class="fade-in overflow-hidden rounded-xl2 bg-cream shadow-card ring-1 ring-black/5"
-          >
-            <img
-              :src="historyImageUrl"
-              alt="ប្រវត្តិវត្តទេពបុរី"
-              class="aspect-[16/10] w-full object-cover"
-            />
+          <figure v-else-if="historyImageUrl"
+            class="fade-in overflow-hidden rounded-xl2 bg-cream shadow-card ring-1 ring-black/5">
+            <img :src="historyImageUrl" alt="ប្រវត្តិវត្តទេពបុរី" class="aspect-[16/10] w-full object-cover" />
           </figure>
 
           <!-- Fallback (no photo yet, or failed to load) — decorative section, keep it quiet -->
@@ -106,8 +98,11 @@ const goals = computed(() => {
             វត្តទេពបុរី
           </div>
         </aside>
+        
       </div>
     </section>
+    
+
 
     <!-- Goals grid -->
     <section class="bg-cream py-20">
@@ -137,13 +132,12 @@ const goals = computed(() => {
         </div>
       </div>
 
-      <div v-else-if="membersError" class="mx-auto mt-12 max-w-md rounded-xl2 border border-red-100 bg-red-50 px-6 py-8 text-center">
+      <div v-else-if="membersError"
+        class="mx-auto mt-12 max-w-md rounded-xl2 border border-red-100 bg-red-50 px-6 py-8 text-center">
         <p class="text-sm text-red-600">មិនអាចទាញយកព័ត៌មានក្រុមការងារបានទេ សូមព្យាយាមម្តងទៀត។</p>
-        <button
-          type="button"
+        <button type="button"
           class="mt-3 rounded-full border border-red-300 px-4 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100"
-          @click="loadMembers()"
-        >
+          @click="loadMembers()">
           ព្យាយាមម្តងទៀត
         </button>
       </div>
@@ -151,11 +145,9 @@ const goals = computed(() => {
       <template v-else>
         <div v-if="abbot" class="fade-in mt-12">
           <RouterLink :to="`/members/${abbot.id}`" class="group inline-block max-w-2xl">
-            <img
-              :src="abbot.image_url || 'https://placehold.co/300x400/1A3626/F7F6F1?text=Abbot'"
+            <img :src="abbot.image_url || 'https://placehold.co/300x400/1A3626/F7F6F1?text=Abbot'"
               :alt="memberName(abbot)"
-              class="mx-auto aspect-[3/4] w-28 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-36"
-            />
+              class="mx-auto aspect-[3/4] w-28 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-36" />
             <h3 class="mt-3 font-khmer text-base font-bold leading-8 text-forest group-hover:text-gold-dark">
               {{ memberName(abbot) }}
             </h3>
@@ -165,18 +157,12 @@ const goals = computed(() => {
           </RouterLink>
         </div>
 
-        <div v-if="monks.length" class="fade-in mx-auto mt-10 grid max-w-lg grid-cols-1 gap-x-20 gap-y-10 sm:grid-cols-2">
-          <RouterLink
-            v-for="monk in monks"
-            :key="monk.id"
-            :to="`/members/${monk.id}`"
-            class="group mx-auto block w-32 text-center sm:w-36"
-          >
-            <img
-              :src="monk.image_url || 'https://placehold.co/240x320/D9603A/F7F6F1?text=Monk'"
-              :alt="memberName(monk)"
-              class="mx-auto aspect-[3/4] w-24 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-28"
-            />
+        <div v-if="monks.length"
+          class="fade-in mx-auto mt-10 grid max-w-lg grid-cols-1 gap-x-20 gap-y-10 sm:grid-cols-2">
+          <RouterLink v-for="monk in monks" :key="monk.id" :to="`/members/${monk.id}`"
+            class="group mx-auto block w-32 text-center sm:w-36">
+            <img :src="monk.image_url || 'https://placehold.co/240x320/D9603A/F7F6F1?text=Monk'" :alt="memberName(monk)"
+              class="mx-auto aspect-[3/4] w-24 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-28" />
             <p class="mt-3 font-khmer text-sm font-semibold leading-7 text-forest group-hover:text-gold-dark">
               {{ memberName(monk) }}
             </p>
@@ -189,38 +175,26 @@ const goals = computed(() => {
             {{ committeeHeading }}
           </h3>
 
-          <RouterLink
-            v-if="committeeLead"
-            :to="`/members/${committeeLead.id}`"
-            class="group mx-auto mt-10 block w-36 text-center"
-          >
-            <img
-              :src="committeeLead.image_url || 'https://placehold.co/260x340/2C5038/F7F6F1?text=Member'"
+          <RouterLink v-if="committeeLead" :to="`/members/${committeeLead.id}`"
+            class="group mx-auto mt-10 block w-36 text-center">
+            <img :src="committeeLead.image_url || 'https://placehold.co/260x340/2C5038/F7F6F1?text=Member'"
               :alt="memberName(committeeLead)"
-              class="mx-auto aspect-[3/4] w-32 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02]"
-            />
+              class="mx-auto aspect-[3/4] w-32 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02]" />
             <p class="mt-3 font-khmer text-sm font-semibold leading-7 text-forest group-hover:text-gold-dark">
               {{ memberName(committeeLead) }}
             </p>
             <p class="mt-1 text-[11px] leading-5 text-gray-500">{{ memberRole(committeeLead) }}</p>
           </RouterLink>
 
-          <div
-            v-if="committeeMembers.length"
-            class="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-x-10 gap-y-12 sm:grid-cols-3 lg:grid-cols-4"
-          >
-            <RouterLink
-              v-for="person in committeeMembers"
-              :key="person.id"
-              :to="`/members/${person.id}`"
-              class="group mx-auto block w-28 text-center sm:w-32"
-            >
-              <img
-                :src="person.image_url || 'https://placehold.co/240x320/2C5038/F7F6F1?text=Member'"
+          <div v-if="committeeMembers.length"
+            class="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-x-10 gap-y-12 sm:grid-cols-3 lg:grid-cols-4">
+            <RouterLink v-for="person in committeeMembers" :key="person.id" :to="`/members/${person.id}`"
+              class="group mx-auto block w-28 text-center sm:w-32">
+              <img :src="person.image_url || 'https://placehold.co/240x320/2C5038/F7F6F1?text=Member'"
                 :alt="memberName(person)"
-                class="mx-auto aspect-[3/4] w-24 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-28"
-              />
-              <p class="mt-3 font-khmer text-xs font-semibold leading-6 text-forest group-hover:text-gold-dark sm:text-sm">
+                class="mx-auto aspect-[3/4] w-24 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-28" />
+              <p
+                class="mt-3 font-khmer text-xs font-semibold leading-6 text-forest group-hover:text-gold-dark sm:text-sm">
                 {{ memberName(person) }}
               </p>
               <p class="mt-1 text-[11px] leading-5 text-gray-500">{{ memberRole(person) }}</p>

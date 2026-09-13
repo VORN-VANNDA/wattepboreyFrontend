@@ -241,7 +241,7 @@ function handleSlideCardClick() {
 
 }
 
-
+const historyImageUrl = computed(() => settings.value?.about_history_image_url || null)
 // ============================================================
 // Abbot
 // ============================================================
@@ -621,29 +621,26 @@ const projects = [
 
         <!-- History Photos -->
 
-        <aside class="min-h-[360px]">
-
-          <!-- Loading -->
-
-          <div v-if="historyPhotosLoading" class="h-full min-h-[360px] animate-pulse rounded-xl2 bg-cream">
-
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <div v-if="settingsLoading" class="space-y-6">
+            <div class="aspect-[16/10] animate-pulse rounded-xl2 bg-cream" />
           </div>
 
-
-          <!-- Images -->
-          <div v-else-if="historyImages.length" class="fade-in h-full">
-            <figure v-for="photo in historyImages" :key="photo.id"
-              class="h-full min-h-[360px] overflow-hidden rounded-xl2 bg-white shadow-card ring-1 ring-black/5">
-              <img :src="photo.image_url" :alt="photo.title"
-                class="h-full min-h-[360px] w-full rounded-xl2 object-cover" />
-            </figure>
-          </div>
+          <figure
+            v-else-if="historyImageUrl"
+            class="fade-in overflow-hidden rounded-xl2 bg-cream shadow-card ring-1 ring-black/5"
+          >
+            <img
+              :src="historyImageUrl"
+              alt="ប្រវត្តិវត្តទេពបុរី"
+              class="aspect-[16/10] w-full object-cover"
+            />
+          </figure>
 
           <!-- Fallback (no photo yet, or failed to load) — decorative section, keep it quiet -->
-          <div v-else class="grid h-full min-h-[360px] place-items-center rounded-xl2 bg-cream text-sm text-gray-400">
+          <div v-else class="grid aspect-[16/10] place-items-center rounded-xl2 bg-cream text-sm text-gray-400">
             វត្តទេពបុរី
           </div>
-
         </aside>
 
       </div>
