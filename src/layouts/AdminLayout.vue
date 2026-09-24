@@ -7,6 +7,7 @@ import {
   Video,
   Image as ImageIcon,
   HeartHandshake,
+  BookOpen,
   Mail,
   Settings,
   LogOut,
@@ -24,6 +25,7 @@ const navItems = [
   { to: '/admin/videos', label: 'វីដេអូ (Videos)', icon: Video },
   { to: '/admin/gallery', label: 'រូបភាព (Gallery)', icon: ImageIcon },
   { to: '/admin/donors', label: '🙏 នាមសប្បុរស (Donors)', icon: HeartHandshake },
+  { to: '/admin/donation-records', label: 'ប្រវត្តិសប្បុរសជន (Records)', icon: BookOpen },
   { to: '/admin/messages', label: 'សារទំនាក់ទំនង (Messages)', icon: Mail },
   { to: '/admin/settings', label: 'ការកំណត់ (Settings)', icon: Settings },
 ]

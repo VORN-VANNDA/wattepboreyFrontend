@@ -24,6 +24,16 @@ const routes = [
     component: () => import('../views/DhammaView.vue'),
   },
   {
+    path: '/donors/:id',
+    name: 'donor-detail',
+    component: () => import('../views/DonorDetailView.vue'),
+  },
+  {
+    path: '/donation-records',
+    name: 'donation-records',
+    component: () => import('../views/DonationRecordsView.vue'),
+  },
+  {
     path: '/events',
     name: 'events',
     component: () => import('../views/EventsView.vue')
@@ -90,6 +100,11 @@ const routes = [
         path: 'donors',
         name: 'admin-donors',
         component: () => import('../views/admin/AdminDonorsView.vue'),
+      },
+      {
+        path: 'donation-records',
+        name: 'admin-donation-records',
+        component: () => import('../views/admin/AdminDonationRecordsView.vue'),
       },
       {
         path: 'messages',

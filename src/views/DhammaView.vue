@@ -1,11 +1,12 @@
 <script setup>
+import { RouterLink } from 'vue-router'
+import { BookOpen } from 'lucide-vue-next'
 import { useApiResource } from '../composables/useApiResource'
 import api from '../lib/api'
 
 const { data: donors, loading, error, load } = useApiResource(() => api.get('/donors'))
 </script>
 
-```vue
 <template>
   <div>
     <!-- =========================================
@@ -19,6 +20,14 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
       <p class="mx-auto mt-4 max-w-xl px-5 text-sm text-white/70 sm:text-base">
         ដោយក្តីដឹងគុណដល់លោកអ្នកសប្បុរសជនទាំងឡាយ ដែលបានឧបត្ថម្ភគាំទ្រដល់វត្តទេពបុរីជានិច្ច។
       </p>
+
+      <RouterLink
+        to="/donation-records"
+        class="btn-gold mt-8 inline-flex !bg-transparent !text-white ring-1 ring-white/40 hover:!bg-white/10"
+      >
+        <BookOpen class="h-4 w-4" />
+        មើលប្រវត្តិសប្បុរសជនពេញលេញ
+      </RouterLink>
     </section>
 
     <!-- =========================================
@@ -36,9 +45,7 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
           :key="n"
           class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm"
         >
-          <!-- រូបភាពវែង -->
           <div class="aspect-[5/3] w-full animate-pulse bg-gray-200"></div>
-
           <div class="flex flex-col items-center p-6 text-center">
             <div class="h-5 w-3/4 animate-pulse rounded bg-gray-200"></div>
             <div class="mt-3 h-7 w-1/2 animate-pulse rounded-full bg-gray-200"></div>
@@ -52,7 +59,6 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
         class="text-center text-sm text-red-500"
       >
         {{ error }}
-
         <button
           type="button"
           class="ml-2 font-semibold underline hover:no-underline"
@@ -75,15 +81,13 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
         v-else
         class="fade-in grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
       >
-        <div
+        <RouterLink
           v-for="donor in donors"
           :key="donor.id"
+          :to="`/donors/${donor.id}`"
           class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
-
-          <!-- =====================================
-               DONOR IMAGE
-          ====================================== -->
+          <!-- DONOR IMAGE -->
           <div class="w-full overflow-hidden">
             <img
               :src="
@@ -96,31 +100,20 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
             />
           </div>
 
-          <!-- =====================================
-               DONOR INFO
-          ====================================== -->
+          <!-- DONOR INFO -->
           <div
             class="flex min-h-[150px] flex-col items-center justify-center bg-white px-6 py-7 text-center"
           >
-            <!-- Name -->
-            <p
-              class="font-khmer text-lg font-bold leading-relaxed text-forest sm:text-xl"
-            >
+            <p class="font-khmer text-lg font-bold leading-relaxed text-forest sm:text-xl">
               {{ donor.name }}
             </p>
-
-            <!-- Role -->
-            <span
-              class="mt-4 inline-block rounded-full bg-gold/15 px-5 py-2 text-sm font-semibold text-gold-dark"
-            >
+            <span class="mt-4 inline-block rounded-full bg-gold/15 px-5 py-2 text-sm font-semibold text-gold-dark">
               {{ donor.role }}
             </span>
           </div>
-
-        </div>
+        </RouterLink>
       </div>
 
     </section>
   </div>
 </template>
-```
