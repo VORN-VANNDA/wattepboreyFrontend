@@ -19,6 +19,7 @@ const { admin, logout } = useAuth()
 const router = useRouter()
 
 const navItems = [
+  { to: '/admin/pchum-ben', label: 'ពិធីបុណ្យកាន់បិណ្ឌ', icon: CalendarDays },
   { to: '/admin/members', label: 'សមាជិក (Members)', icon: Users },
   { to: '/admin/slides', label: 'ស្លាយទំព័រដើម (Slides)', icon: PanelsTopLeft },
   { to: '/admin/events', label: 'ព្រឹត្តិការណ៍ (Events)', icon: CalendarDays },

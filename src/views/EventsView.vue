@@ -1,4 +1,5 @@
 <script setup>
+import { publicPath } from '../lib/publicLinks'
 import { useLocale } from '../composables/useLocale'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -149,7 +150,7 @@ function formatTimeRange(start, end) {
         <RouterLink
           v-for="event in activeEvents"
           :key="event.id"
-          :to="`/events/${event.id}`"
+          :to="publicPath('events', event.id)"
           class="group block"
         >
 
@@ -359,7 +360,7 @@ function formatTimeRange(start, end) {
         <RouterLink
           v-for="event in pastEvents"
           :key="event.id"
-          :to="`/events/${event.id}`"
+          :to="publicPath('events', event.id)"
           class="group block"
         >
 

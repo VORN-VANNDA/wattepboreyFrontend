@@ -1,4 +1,5 @@
 <script setup>
+import { publicPath } from '../lib/publicLinks'
 import { RouterLink } from 'vue-router'
 import { BookOpen } from 'lucide-vue-next'
 import { useApiResource } from '../composables/useApiResource'
@@ -84,7 +85,7 @@ const { data: donors, loading, error, load } = useApiResource(() => api.get('/do
         <RouterLink
           v-for="donor in donors"
           :key="donor.id"
-          :to="`/donors/${donor.id}`"
+          :to="publicPath('donors', donor.id)"
           class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
           <!-- DONOR IMAGE -->

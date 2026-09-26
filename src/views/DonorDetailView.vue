@@ -1,4 +1,5 @@
 <script setup>
+import { recordId } from '../lib/publicLinks'
 import { useRoute } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
@@ -12,7 +13,7 @@ const {
   loading,
   error,
   load,
-} = useApiResource(() => api.get(`/donors/${route.params.id}`), { initial: null })
+} = useApiResource(() => api.get(`/donors/${recordId(route.params.id)}`), { initial: null })
 </script>
 
 <template>
