@@ -63,12 +63,12 @@ const routes = [
 
   // ---- Admin dashboard --------------------------------------------------
   {
-    path: '/admin/login',
+    path: '/portal-manage/login',
     name: 'admin-login',
     component: () => import('../views/admin/AdminLoginView.vue'),
   },
   {
-    path: '/admin',
+    path: '/portal-manage',
     component: () => import('../layouts/AdminLayout.vue'),
     meta: { requiresAuth: true },
     children: [

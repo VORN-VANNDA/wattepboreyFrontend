@@ -19,21 +19,21 @@ const { admin, logout } = useAuth()
 const router = useRouter()
 
 const navItems = [
-  { to: '/admin/pchum-ben', label: 'ពិធីបុណ្យកាន់បិណ្ឌ', icon: CalendarDays },
-  { to: '/admin/members', label: 'សមាជិក (Members)', icon: Users },
-  { to: '/admin/slides', label: 'ស្លាយទំព័រដើម (Slides)', icon: PanelsTopLeft },
-  { to: '/admin/events', label: 'ព្រឹត្តិការណ៍ (Events)', icon: CalendarDays },
-  { to: '/admin/videos', label: 'វីដេអូ (Videos)', icon: Video },
-  { to: '/admin/gallery', label: 'រូបភាព (Gallery)', icon: ImageIcon },
-  { to: '/admin/donors', label: '🙏 នាមសប្បុរស (Donors)', icon: HeartHandshake },
-  { to: '/admin/donation-records', label: 'ប្រវត្តិសប្បុរសជន (Records)', icon: BookOpen },
-  { to: '/admin/messages', label: 'សារទំនាក់ទំនង (Messages)', icon: Mail },
-  { to: '/admin/settings', label: 'ការកំណត់ (Settings)', icon: Settings },
+  { to: '/portal-manage/pchum-ben', label: 'ពិធីបុណ្យកាន់បិណ្ឌ', icon: CalendarDays },
+  { to: '/portal-manage/members', label: 'សមាជិក (Members)', icon: Users },
+  { to: '/portal-manage/slides', label: 'ស្លាយទំព័រដើម (Slides)', icon: PanelsTopLeft },
+  { to: '/portal-manage/events', label: 'ព្រឹត្តិការណ៍ (Events)', icon: CalendarDays },
+  { to: '/portal-manage/videos', label: 'វីដេអូ (Videos)', icon: Video },
+  { to: '/portal-manage/gallery', label: 'រូបភាព (Gallery)', icon: ImageIcon },
+  { to: '/portal-manage/donors', label: '🙏 នាមសប្បុរស (Donors)', icon: HeartHandshake },
+  { to: '/portal-manage/donation-records', label: 'ប្រវត្តិសប្បុរសជន (Records)', icon: BookOpen },
+  { to: '/portal-manage/messages', label: 'សារទំនាក់ទំនង (Messages)', icon: Mail },
+  { to: '/portal-manage/settings', label: 'ការកំណត់ (Settings)', icon: Settings },
 ]
 
 function handleLogout() {
   logout()
-  router.push('/admin/login')
+  router.push('/portal-manage/login')
 }
 </script>
 

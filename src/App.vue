@@ -8,7 +8,7 @@ import Footer from './components/Footer.vue'
 // its own full-page chrome — the public Navbar/Footer would be redundant
 // and visually wrong there, so only show them on public-site routes.
 const route = useRoute()
-const isAdminRoute = computed(() => route.path.startsWith('/admin'))
+const isAdminRoute = computed(() => route.path.startsWith('/portal-manage'))
 const isHomeRoute = computed(() => route.path === '/')
 </script>
 

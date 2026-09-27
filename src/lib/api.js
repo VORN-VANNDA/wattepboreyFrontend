@@ -24,12 +24,12 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    const onAdminRoute = window.location.pathname.startsWith('/admin')
-    const onLoginPage = window.location.pathname === '/admin/login'
+    const onAdminRoute = window.location.pathname.startsWith('/portal-manage')
+    const onLoginPage = window.location.pathname === '/portal-manage/login'
     if (err.response?.status === 401 && onAdminRoute && !onLoginPage) {
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(ADMIN_KEY)
-      window.location.href = '/admin/login'
+      window.location.href = '/portal-manage/login'
     }
     return Promise.reject(err)
   }

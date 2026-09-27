@@ -108,9 +108,7 @@ const year = new Date().getFullYear()
 
         <span class="text-white/20">·</span>
 
-        <RouterLink to="/admin/login" class="hover:text-white/60">
-          Admin
-        </RouterLink>
+        
       </p>
     </div>
 
