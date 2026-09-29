@@ -45,7 +45,7 @@ export default {
       url.pathname = match.canonical
       return Response.redirect(url.href, 301)
     }
-    const apiBase = (env.API_ORIGIN || 'https://tebpoery-backend.onrender.com/api').replace(/\/$/, '')
+    const apiBase = (env.API_ORIGIN || 'https://tebpoerybackend.onrender.com/api').replace(/\/$/, '')
     try {
       const upstream = await fetch(`${apiBase}/${match.resource}/${match.id}`, { signal: AbortSignal.timeout(20000), headers: { Accept: 'application/json' } })
       if (upstream.status === 404) return new Response('Page not found', { status: 404 })

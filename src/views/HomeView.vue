@@ -432,7 +432,7 @@ const projects = [
   <img :src="activeSlide.image_url 
         ? (activeSlide.image_url.startsWith('http') 
             ? activeSlide.image_url 
-            : `https://tebpoery-backend.onrender.com${activeSlide.image_url.startsWith('/') ? '' : '/'}${activeSlide.image_url}`)
+            : `https://tebpoerybackend.onrender.com${activeSlide.image_url.startsWith('/') ? '' : '/'}${activeSlide.image_url}`)
         : '/brasat.jpg'" 
      :alt="activeSlide.title"
      class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" />
