@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import { publicPath } from '../lib/publicLinks'
 import { RouterLink } from 'vue-router'
 import { ArrowRight, CalendarDays } from 'lucide-vue-next'
@@ -7,6 +8,7 @@ import api from '../lib/api'
 import { useApiResource } from '../composables/useApiResource'
 import { postImage, postDate } from '../lib/pchumBen'
 const { data: posts, loading, error, load } = useApiResource(() => api.get('/pchum-ben'))
+const visiblePosts = computed(() => posts.value.slice(0, 6))
 </script>
 
 <template>
@@ -25,15 +27,14 @@ const { data: posts, loading, error, load } = useApiResource(() => api.get('/pch
     </div>
     <p v-else-if="!posts.length" class="mt-10 text-center text-gray-500">ព័ត៌មានពិធីបុណ្យកាន់បិណ្ឌនឹងផ្សាយនៅទីនេះ។</p>
     <div v-else class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-      <RouterLink v-for="post in posts" :key="post.id" :to="publicPath('pchum-ben', post.id)" class="group flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-card focus-visible:outline-gold">
+      <RouterLink v-for="post in visiblePosts" :key="post.id" :to="publicPath('pchum-ben', post.id)" class="group flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-card focus-visible:outline-gold">
         <div class="relative aspect-video overflow-hidden bg-cream">
           <img :src="postImage(post.images[0])" :alt="post.title" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
-          <span class="absolute left-3 top-3 rounded-full bg-gold px-3 py-1 text-xs font-semibold text-forest">កាន់បិណ្ឌ</span>
         </div>
         <div class="flex flex-1 flex-col p-5">
           <p class="flex items-center gap-2 text-xs text-gray-500"><CalendarDays class="h-4 w-4 text-gold-dark" /><time :datetime="post.event_date">{{ postDate(post.event_date) }}</time></p>
-          <h3 class="mt-3 font-display text-lg leading-relaxed text-forest">{{ post.title }}</h3>
-          <p class="mb-5 mt-2 line-clamp-3 text-sm leading-relaxed text-gray-500">{{ post.excerpt || post.description }}</p>
+          <h3 class="mt-3 font-khmer text-xl font-semibold leading-[1.8] text-forest">{{ post.title }}</h3>
+          <p class="mb-5 mt-3 line-clamp-3 font-khmer text-sm leading-loose text-gray-500">{{ post.excerpt || post.description }}</p>
           <span class="mt-auto flex items-center justify-between border-t border-black/5 pt-4 text-sm text-gold-dark">អានបន្ត <ArrowRight class="h-4 w-4" /></span>
         </div>
       </RouterLink>
