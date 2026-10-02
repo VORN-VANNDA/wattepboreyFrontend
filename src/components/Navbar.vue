@@ -59,7 +59,7 @@ watch(
   >
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
       <!-- Logo -->
-      <RouterLink to="/" class="flex items-center gap-3" @click="closeMobile">
+      <RouterLink to="/" class="flex shrink-0 items-center gap-3" @click="closeMobile">
         <img
           src="/logo.png"
           alt="Wat Tepborey logo"
@@ -82,12 +82,12 @@ watch(
       </RouterLink>
 
       <!-- Desktop nav -->
-      <nav class="hidden items-center gap-8 md:flex">
+      <nav class="hidden min-w-0 items-center gap-4 xl:flex 2xl:gap-8">
         <RouterLink
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="border-b-2 pb-1 font-khmer text-[20px] font-medium transition-colors"
+          class="whitespace-nowrap border-b-2 pb-1 font-khmer text-[18px] font-medium transition-colors 2xl:text-[20px]"
           :class="
             isActive(link.to)
               ? 'border-gold text-gold'
@@ -102,12 +102,12 @@ watch(
 
       <!-- Right cluster: donate -->
 <!-- Right cluster: Facebook -->
-<div class="hidden items-center gap-5 md:flex">
+<div class="hidden shrink-0 items-center gap-5 xl:flex">
   <a 
     href="https://www.facebook.com/share/19RV7KW4zY/?mibextid=wwXIfr" 
     target="_blank" 
     rel="noopener noreferrer" 
-    class="btn-gold !px-5 !py-2.5 text-sm inline-flex items-center gap-2"
+    class="btn-gold !px-5 !py-2.5 text-sm inline-flex items-center gap-2 whitespace-nowrap"
   >
     <!-- Icon Facebook -->
     <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -120,7 +120,7 @@ watch(
       <!-- Mobile menu toggle -->
       <button
         type="button"
-        class="grid h-10 w-10 place-items-center rounded-lg transition-colors md:hidden"
+        class="grid h-10 w-10 place-items-center rounded-lg transition-colors xl:hidden"
         :class="solidNav ? 'text-forest' : 'text-white'"
         :aria-label="mobileOpen ? 'Close menu' : 'Open menu'"
         @click="mobileOpen = !mobileOpen"
@@ -139,7 +139,7 @@ watch(
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-2"
     >
-      <div v-if="mobileOpen" class="border-t border-black/5 bg-white px-5 pb-6 pt-2 md:hidden">
+      <div v-if="mobileOpen" class="border-t border-black/5 bg-white px-5 pb-6 pt-2 xl:hidden">
         <nav class="flex flex-col divide-y divide-black/5">
           <RouterLink
             v-for="link in navLinks"
