@@ -1,7 +1,7 @@
 // Stable presentation codes, not an authorization or encryption mechanism.
 // Keep this mapping unchanged so previously shared links remain valid.
 const MASK = 0x6a09e667n
-export const publicResources = ['slides', 'events', 'members', 'donors', 'pchum-ben']
+export const publicResources = ['slides', 'events', 'members', 'donors', 'pchum-ben', 'news', 'books']
 
 export function recordId(value) {
   const text = String(value ?? '')

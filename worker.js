@@ -6,7 +6,7 @@ const plain = (value) => String(value || '').replace(/<[^>]*>/g, ' ').replace(/\
 export function metadata(record, resource, canonical, apiBase) {
   const title = plain(record.title || record.name || 'វត្តទេពបុរី')
   const description = plain(record.excerpt || record.description || record.subtitle || record.bio || record.role || title).slice(0, 240)
-  let image = record.images?.[0] || record.image_url || ''
+  let image = record.images?.[0] || record.cover_url || record.image_url || ''
   try { image = new URL(image || '/logo.png', image ? apiBase : canonical).href } catch { image = new URL('/logo.png', canonical).href }
   if (!/^https?:\/\//.test(image)) image = new URL('/logo.png', canonical).href
   return { title, description, image, canonical, type: ['members', 'donors'].includes(resource) ? 'profile' : 'article' }

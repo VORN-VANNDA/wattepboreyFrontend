@@ -19,6 +19,8 @@ const { admin, logout } = useAuth()
 const router = useRouter()
 
 const navItems = [
+  { to: '/portal-manage/news', label: 'ព័ត៌មានទូទៅ (News)', icon: CalendarDays },
+  { to: '/portal-manage/books', label: 'បណ្ណាល័យសៀវភៅ (Books)', icon: ImageIcon },
   { to: '/portal-manage/pchum-ben', label: 'ពិធីបុណ្យកាន់បិណ្ឌ', icon: CalendarDays },
   { to: '/portal-manage/members', label: 'សមាជិក (Members)', icon: Users },
   { to: '/portal-manage/slides', label: 'ស្លាយទំព័រដើម (Slides)', icon: PanelsTopLeft },

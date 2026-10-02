@@ -10,7 +10,9 @@
       "/events/*",
       "/members/*",
       "/donors/*",
-      "/pchum-ben/*"
+      "/pchum-ben/*",
+      "/news/*",
+      "/books/*"
     ]
   },
   "main": "worker.js",

@@ -3,6 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 
 const routes = [
+  { path: '/news', name: 'news', component: () => import('../views/NewsView.vue') },
+  { path: '/news/:id', name: 'news-detail', component: () => import('../views/NewsDetailView.vue') },
+  { path: '/books', name: 'books', component: () => import('../views/BooksView.vue') },
+  { path: '/books/:id', name: 'book-detail', component: () => import('../views/BookDetailView.vue') },
   { path: '/pchum-ben/:id', name: 'pchum-ben-detail', component: () => import('../views/PchumBenDetailView.vue') },
   // ---- Public site ----------------------------------------------------
   {
@@ -38,7 +42,7 @@ const routes = [
   {
     path: '/events',
     name: 'events',
-    component: () => import('../views/EventsView.vue')
+    redirect: '/news'
   },
   {
   path: '/events/:id',
@@ -53,7 +57,7 @@ const routes = [
   {
     path: '/gallery',
     name: 'gallery',
-    component: () => import('../views/GalleryView.vue'),
+    redirect: '/books',
   },
   {
     path: '/contact',
@@ -72,6 +76,8 @@ const routes = [
     component: () => import('../layouts/AdminLayout.vue'),
     meta: { requiresAuth: true },
     children: [
+      { path: 'news', name: 'admin-news', component: () => import('../views/admin/AdminNewsView.vue') },
+      { path: 'books', name: 'admin-books', component: () => import('../views/admin/AdminBooksView.vue') },
       { path: 'pchum-ben', name: 'admin-pchum-ben', component: () => import('../views/admin/AdminPchumBenView.vue') },
       { path: '', redirect: { name: 'admin-members' } },
       {

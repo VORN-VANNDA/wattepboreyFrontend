@@ -6,8 +6,8 @@ import { Phone, MapPin, Facebook, Youtube, Send } from 'lucide-vue-next'
 const quickLinks = [
   { to: '/about', label: 'អំពីវត្ត' },
   { to: '/dhamma', label: 'ធម្មៈ' },
-  { to: '/events', label: 'ព្រឹត្តិការណ៍' },
-  { to: '/gallery', label: 'វិចិត្រសាល' },
+  { to: '/news', label: 'ព័ត៌មានទូទៅ' },
+  { to: '/books', label: 'បណ្ណាល័យសៀវភៅ' },
   { to: '/contact', label: 'ទំនាក់ទំនង' },
 ]
 
