@@ -64,7 +64,7 @@ const visibleEvents = computed(() => upcoming.value.slice(0, showAllEvents.value
     <div class="mx-auto grid max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[minmax(0,1fr)_290px] lg:px-10">
       <div class="min-w-0">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <h2 class="flex items-center gap-3 text-2xl font-bold leading-loose"><Newspaper class="h-7 w-7 text-gold-dark" /> {{ route.query.category || route.query.q || route.query.month ? 'លទ្ធផលស្វែងរក' : 'ព័ត៌មានថ្មីៗ' }}</h2>
+          <h2 class="flex  font-khmer  items-center gap-3 text-2xl font-bold leading-loose"><Newspaper class="h-7 w-7 text-gold-dark" /> {{ route.query.category || route.query.q || route.query.month ? 'លទ្ធផលស្វែងរក' : 'ព័ត៌មានថ្មីៗ' }}</h2>
           <button v-if="route.query.category || route.query.q || route.query.month" class="text-sm text-gold-dark" @click="router.replace('/news')">មើលទាំងអស់ →</button>
         </div>
         <div v-if="loading" class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3"><div v-for="n in 3" :key="n" class="h-80 animate-pulse rounded-xl bg-cream" /></div>
@@ -73,7 +73,7 @@ const visibleEvents = computed(() => upcoming.value.slice(0, showAllEvents.value
         <div v-else class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           <RouterLink v-for="post in matchedPosts.slice(0, visibleCount)" :key="post.id" :to="publicPath('news', post.id)" class="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-card">
             <div class="relative aspect-[1.7] overflow-hidden bg-cream"><img :src="postImage(post.images[0])" :alt="post.title" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" /><div class="absolute left-3 top-3 rounded-lg bg-white/95 px-3 py-2 text-center shadow-sm"><strong class="block text-xl leading-none">{{ dateParts(post.event_date).day }}</strong><span class="text-[10px] font-semibold">{{ dateParts(post.event_date).month }}</span></div></div>
-            <div class="flex flex-1 flex-col p-4"><h3 class="text-lg font-semibold leading-[1.8]">{{ post.title }}</h3><p class="mb-5 mt-2 line-clamp-3 text-sm leading-loose text-gray-500">{{ post.excerpt || post.description }}</p><div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-black/5 pt-3 text-xs"><time :datetime="post.event_date" class="flex items-center gap-1.5 text-gray-500"><CalendarDays class="h-3.5 w-3.5" />{{ post.event_date }}</time><span class="flex items-center gap-1 text-gold-dark">អានបន្ត <ArrowRight class="h-4 w-4" /></span></div></div>
+            <div class="flex font-khmer flex-1 flex-col p-4"><h3 class="text-lg font-semibold leading-[1.8]">{{ post.title }}</h3><p class="mb-5 mt-2 line-clamp-3 text-sm leading-loose text-gray-500">{{ post.excerpt || post.description }}</p><div class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-black/5 pt-3 text-xs"><time :datetime="post.event_date" class="flex items-center gap-1.5 text-gray-500"><CalendarDays class="h-3.5 w-3.5" />{{ post.event_date }}</time><span class="flex items-center gap-1 text-gold-dark">អានបន្ត <ArrowRight class="h-4 w-4" /></span></div></div>
           </RouterLink>
         </div>
         <button v-if="matchedPosts.length > visibleCount" class="mx-auto mt-6 block rounded-lg border border-gold px-6 py-2.5 text-gold-dark" @click="visibleCount += 6">មើលព័ត៌មានបន្ថែម</button>
