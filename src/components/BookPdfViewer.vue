@@ -18,6 +18,8 @@ let pdf = null
 let renderTask = null
 let observer = null
 let generation = 0
+let lastScrollY = 0
+let lastAutoTurn = 0
 
 async function renderPage() {
   if (!pdf || !canvas.value || !frame.value) return
@@ -51,8 +53,22 @@ async function renderPage() {
 function goToPage(value) {
   const number = Number(value)
   if (Number.isInteger(number) && number >= 1 && number <= pageCount.value && number !== pageNumber.value) {
+    lastAutoTurn = Date.now()
     pageNumber.value = number
     nextTick(() => viewer.value?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+  }
+}
+
+function advanceOnScroll() {
+  const currentY = window.scrollY
+  const scrollingDown = currentY > lastScrollY
+  lastScrollY = currentY
+  if (!scrollingDown || loading.value || pageNumber.value >= pageCount.value) return
+  if (Date.now() - lastAutoTurn < 900) return
+  const bounds = viewer.value?.getBoundingClientRect()
+  if (!bounds || bounds.top >= window.innerHeight || bounds.bottom < 0) return
+  if (bounds.bottom <= window.innerHeight + 24) {
+    goToPage(pageNumber.value + 1)
   }
 }
 
@@ -82,9 +98,12 @@ watch([pageNumber, zoom], renderPage)
 onMounted(() => {
   observer = new ResizeObserver(() => renderPage())
   if (frame.value) observer.observe(frame.value)
+  lastScrollY = window.scrollY
+  window.addEventListener('scroll', advanceOnScroll, { passive: true })
 })
 onBeforeUnmount(() => {
   generation++
+  window.removeEventListener('scroll', advanceOnScroll)
   observer?.disconnect()
   renderTask?.cancel()
   pdf?.destroy()
