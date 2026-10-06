@@ -34,7 +34,8 @@ async function handleFileChange(e) {
   formData.append('file', file)
 
   try {
-    const res = await api.post(`/upload?folder=${props.folder}&type=document`, formData, {
+    const endpoint = props.folder === 'books' ? '/books/pdf-uploads' : `/upload?folder=${props.folder}&type=document`
+    const res = await api.post(endpoint, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
     emit('update:modelValue', res.data.data.url)
