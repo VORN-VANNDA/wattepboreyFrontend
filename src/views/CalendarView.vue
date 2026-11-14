@@ -283,8 +283,7 @@ onBeforeUnmount(() => clearInterval(timer))
                   :class="cell.date === today ? 'bg-forest text-white' : cell.holidays.length ? 'text-red-700' : 'text-forest'">{{ khNumber(cell.day) }}</span>
                 <span class="mt-1 text-[9px] leading-tight text-gray-500 sm:text-[11px]">{{ cell.lunar.short }}</span>
                 <span class="mt-auto flex items-center justify-center gap-1 pt-1">
-                  <span v-if="cell.holidays.length" class="h-1.5 w-1.5 rounded-full bg-red-600" />
-                  <img v-if="cell.lunar.holy" src="/buddha_animation.gif" alt="ថ្ងៃសីល" class="h-6 w-6 object-contain sm:h-7 sm:w-7" />
+                  <img v-if="cell.lunar.holy" src="/buddha-holy-static.png" alt="ថ្ងៃសីល" class="h-6 w-6 object-contain sm:h-7 sm:w-7" />
                   <span v-if="cell.events.length" class="h-1.5 w-1.5 rounded-full bg-forest" />
                 </span>
                 <span v-if="cell.holidays.length" class="hidden line-clamp-1 w-full text-[10px] text-red-700 md:block">{{ cell.holidays[0].title }}</span>
@@ -293,7 +292,7 @@ onBeforeUnmount(() => clearInterval(timer))
           </div>
           <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-black/5 pt-4 text-xs text-gray-600">
             <span class="flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-red-600" /> ថ្ងៃឈប់សម្រាក</span>
-            <span class="flex items-center gap-2"><img src="/buddha_animation.gif" alt="" class="h-6 w-6 object-contain" /> ថ្ងៃសីល</span>
+            <span class="flex items-center gap-2"><img src="/buddha-holy-static.png" alt="" class="h-6 w-6 object-contain" /> ថ្ងៃសីល</span>
             <span class="flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-forest" /> កម្មវិធីរបស់អ្នក</span>
           </div>
         </div>
