@@ -4,6 +4,7 @@ import { useAuth } from '../composables/useAuth'
 
 const routes = [
   { path: '/news', name: 'news', component: () => import('../views/NewsView.vue') },
+  { path: '/calendar', name: 'calendar', component: () => import('../views/CalendarView.vue') },
   { path: '/news/:id', name: 'news-detail', component: () => import('../views/NewsDetailView.vue') },
   { path: '/books', name: 'books', component: () => import('../views/BooksView.vue') },
   { path: '/books/:id', name: 'book-detail', component: () => import('../views/BookDetailView.vue') },
@@ -77,6 +78,7 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       { path: 'news', name: 'admin-news', component: () => import('../views/admin/AdminNewsView.vue') },
+      { path: 'calendar', name: 'admin-calendar', component: () => import('../views/admin/AdminCalendarView.vue') },
       { path: 'books', name: 'admin-books', component: () => import('../views/admin/AdminBooksView.vue') },
       { path: 'pchum-ben', name: 'admin-pchum-ben', component: () => import('../views/admin/AdminPchumBenView.vue') },
       { path: '', redirect: { name: 'admin-members' } },

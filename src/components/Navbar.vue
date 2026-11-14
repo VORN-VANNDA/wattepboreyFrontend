@@ -14,6 +14,7 @@ const navLinks = computed(() => [
   { to: '/about', label: ('អំពីវត្ត') },
   { to: '/dhamma', label: ('សប្បុរសជន') },
   { to: '/news', label: ('ព័ត៌មានទូទៅ') },
+  { to: '/calendar', label: ('ប្រតិទិនខ្មែរ') },
   { to: '/books', label: ('បណ្ណាល័យសៀវភៅ') },
   { to: '/contact', label: ('ទំនាក់ទំនង') },
 ])
@@ -82,12 +83,12 @@ watch(
       </RouterLink>
 
       <!-- Desktop nav -->
-      <nav class="hidden min-w-0 items-center gap-4 xl:flex 2xl:gap-8">
+      <nav class="hidden min-w-0 items-center gap-3 xl:flex 2xl:gap-6">
         <RouterLink
           v-for="link in navLinks"
           :key="link.to"
           :to="link.to"
-          class="whitespace-nowrap border-b-2 pb-1 font-khmer text-[18px] font-medium transition-colors 2xl:text-[20px]"
+          class="whitespace-nowrap border-b-2 pb-1 font-khmer text-[16px] font-medium transition-colors 2xl:text-[19px]"
           :class="
             isActive(link.to)
               ? 'border-gold text-gold'

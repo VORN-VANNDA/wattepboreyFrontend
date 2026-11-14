@@ -7,6 +7,7 @@ const quickLinks = [
   { to: '/about', label: 'អំពីវត្ត' },
   { to: '/dhamma', label: 'ធម្មៈ' },
   { to: '/news', label: 'ព័ត៌មានទូទៅ' },
+  { to: '/calendar', label: 'ប្រតិទិនខ្មែរ' },
   { to: '/books', label: 'បណ្ណាល័យសៀវភៅ' },
   { to: '/contact', label: 'ទំនាក់ទំនង' },
 ]
