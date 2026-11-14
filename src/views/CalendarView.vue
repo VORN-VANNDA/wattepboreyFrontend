@@ -274,26 +274,26 @@ onBeforeUnmount(() => clearInterval(timer))
           </div>
           <div class="grid grid-cols-7 gap-1 pt-2 sm:gap-2">
             <div v-for="(cell, index) in calendarDays" :key="cell?.date || `blank-${index}`" class="min-h-20 sm:min-h-28">
-              <button v-if="cell" type="button" class="flex h-full w-full flex-col rounded-xl border p-1.5 text-left transition sm:p-2.5"
+              <button v-if="cell" type="button" class="flex h-full w-full flex-col items-center rounded-xl border p-1 text-center transition sm:p-2.5"
                 :class="selected === cell.date ? 'border-gold bg-gold/10 shadow-sm' : cell.holidays.length ? 'border-red-100 bg-red-50 hover:border-red-300' : 'border-transparent hover:bg-cream'"
                 :aria-label="`${fullKhmerDate(cell.date, cell.lunar)} ${cell.holidays.map(item => item.title).join(', ')}`"
                 :title="fullKhmerDate(cell.date, cell.lunar)"
                 :aria-pressed="selected === cell.date" @click="selectDate(cell.date)">
-                <span class="grid h-7 w-7 place-items-center rounded-full text-sm font-bold sm:h-8 sm:w-8"
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full text-lg font-bold leading-none sm:h-10 sm:w-10 sm:text-xl"
                   :class="cell.date === today ? 'bg-forest text-white' : cell.holidays.length ? 'text-red-700' : 'text-forest'">{{ khNumber(cell.day) }}</span>
                 <span class="mt-1 text-[9px] leading-tight text-gray-500 sm:text-[11px]">{{ cell.lunar.short }}</span>
-                <span class="mt-auto flex items-center gap-1 pt-1">
+                <span class="mt-auto flex items-center justify-center gap-1 pt-1">
                   <span v-if="cell.holidays.length" class="h-1.5 w-1.5 rounded-full bg-red-600" />
-                  <img v-if="cell.lunar.holy" src="/buddha-holy.svg" alt="ថ្ងៃសីល" class="h-4 w-4" />
+                  <img v-if="cell.lunar.holy" src="/buddha_animation.gif" alt="ថ្ងៃសីល" class="h-6 w-6 object-contain sm:h-7 sm:w-7" />
                   <span v-if="cell.events.length" class="h-1.5 w-1.5 rounded-full bg-forest" />
                 </span>
-                <span v-if="cell.holidays.length" class="hidden line-clamp-1 text-[10px] text-red-700 md:block">{{ cell.holidays[0].title }}</span>
+                <span v-if="cell.holidays.length" class="hidden line-clamp-1 w-full text-[10px] text-red-700 md:block">{{ cell.holidays[0].title }}</span>
               </button>
             </div>
           </div>
           <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-black/5 pt-4 text-xs text-gray-600">
             <span class="flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-red-600" /> ថ្ងៃឈប់សម្រាក</span>
-            <span class="flex items-center gap-2"><img src="/buddha-holy.svg" alt="" class="h-4 w-4" /> ថ្ងៃសីល</span>
+            <span class="flex items-center gap-2"><img src="/buddha_animation.gif" alt="" class="h-6 w-6 object-contain" /> ថ្ងៃសីល</span>
             <span class="flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-forest" /> កម្មវិធីរបស់អ្នក</span>
           </div>
         </div>
