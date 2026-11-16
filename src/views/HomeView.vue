@@ -1,4 +1,6 @@
 <script setup>
+const uploadOrigin = import.meta.env.VITE_UPLOAD_ORIGIN || 'https://tebpoery-backend.onrender.com'
+import { publicPath } from '../lib/publicLinks'
 
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 
@@ -19,6 +21,7 @@ import { useApiResource } from '../composables/useApiResource'
 import api from '../lib/api'
 
 import SectionHeading from '../components/SectionHeading.vue'
+import PchumBenSection from '../components/PchumBenSection.vue'
 
 
 // ============================================================
@@ -225,7 +228,7 @@ onUnmounted(stopAutoplay)
 const activeSlideDestination = computed(() => {
 
   return activeSlide.value?.id
-    ? `/slides/${activeSlide.value.id}`
+    ? publicPath('slides', activeSlide.value.id)
     : null
 
 })
@@ -430,7 +433,7 @@ const projects = [
   <img :src="activeSlide.image_url 
         ? (activeSlide.image_url.startsWith('http') 
             ? activeSlide.image_url 
-            : `https://tebpoery-backend.onrender.com${activeSlide.image_url.startsWith('/') ? '' : '/'}${activeSlide.image_url}`)
+            : `${uploadOrigin}${activeSlide.image_url.startsWith('/') ? '' : '/'}${activeSlide.image_url}`)
         : '/brasat.jpg'" 
      :alt="activeSlide.title"
      class="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" />
@@ -492,7 +495,7 @@ const projects = [
 
                   <!-- Read More -->
 
-                  <RouterLink v-if="activeSlide.id" :to="`/slides/${activeSlide.id}`"
+                  <RouterLink v-if="activeSlide.id" :to="publicPath('slides', activeSlide.id)"
                     class="inline-flex items-center justify-center rounded-full border border-forest px-5 py-2.5 text-sm font-semibold text-forest transition hover:bg-forest hover:text-white"
                     @click.stop>
 
@@ -567,6 +570,8 @@ const projects = [
     </section>
 
 
+
+    <PchumBenSection />
 
     <!-- ============================================================
          ABOUT + HISTORY PHOTO
@@ -692,7 +697,7 @@ const projects = [
             </p>
 
 
-            <RouterLink :to="`/members/${abbot.id}`" class="btn-gold mt-7 !px-6 !py-2.5 text-sm">
+            <RouterLink :to="publicPath('members', abbot.id)" class="btn-gold mt-7 !px-6 !py-2.5 text-sm">
 
               អានបន្ថែម
 

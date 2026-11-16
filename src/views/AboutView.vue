@@ -1,4 +1,5 @@
 <script setup>
+import { publicPath } from '../lib/publicLinks'
 import { useLocale } from '../composables/useLocale'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -144,7 +145,7 @@ const goals = computed(() => {
 
       <template v-else>
         <div v-if="abbot" class="fade-in mt-12">
-          <RouterLink :to="`/members/${abbot.id}`" class="group inline-block max-w-2xl">
+          <RouterLink :to="publicPath('members', abbot.id)" class="group inline-block max-w-2xl">
             <img :src="abbot.image_url || 'https://placehold.co/300x400/1A3626/F7F6F1?text=Abbot'"
               :alt="memberName(abbot)"
               class="mx-auto aspect-[3/4] w-28 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-36" />
@@ -159,7 +160,7 @@ const goals = computed(() => {
 
         <div v-if="monks.length"
           class="fade-in mx-auto mt-10 grid max-w-lg grid-cols-1 gap-x-20 gap-y-10 sm:grid-cols-2">
-          <RouterLink v-for="monk in monks" :key="monk.id" :to="`/members/${monk.id}`"
+          <RouterLink v-for="monk in monks" :key="monk.id" :to="publicPath('members', monk.id)"
             class="group mx-auto block w-32 text-center sm:w-36">
             <img :src="monk.image_url || 'https://placehold.co/240x320/D9603A/F7F6F1?text=Monk'" :alt="memberName(monk)"
               class="mx-auto aspect-[3/4] w-24 object-cover object-top shadow-sm ring-1 ring-black/5 transition-transform group-hover:scale-[1.02] sm:w-28" />
@@ -175,7 +176,7 @@ const goals = computed(() => {
             {{ committeeHeading }}
           </h3>
 
-          <RouterLink v-if="committeeLead" :to="`/members/${committeeLead.id}`"
+          <RouterLink v-if="committeeLead" :to="publicPath('members', committeeLead.id)"
             class="group mx-auto mt-10 block w-36 text-center">
             <img :src="committeeLead.image_url || 'https://placehold.co/260x340/2C5038/F7F6F1?text=Member'"
               :alt="memberName(committeeLead)"
@@ -188,7 +189,7 @@ const goals = computed(() => {
 
           <div v-if="committeeMembers.length"
             class="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-x-10 gap-y-12 sm:grid-cols-3 lg:grid-cols-4">
-            <RouterLink v-for="person in committeeMembers" :key="person.id" :to="`/members/${person.id}`"
+            <RouterLink v-for="person in committeeMembers" :key="person.id" :to="publicPath('members', person.id)"
               class="group mx-auto block w-28 text-center sm:w-32">
               <img :src="person.image_url || 'https://placehold.co/240x320/2C5038/F7F6F1?text=Member'"
                 :alt="memberName(person)"

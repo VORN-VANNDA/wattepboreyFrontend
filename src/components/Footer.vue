@@ -6,8 +6,9 @@ import { Phone, MapPin, Facebook, Youtube, Send } from 'lucide-vue-next'
 const quickLinks = [
   { to: '/about', label: 'អំពីវត្ត' },
   { to: '/dhamma', label: 'ធម្មៈ' },
-  { to: '/events', label: 'ព្រឹត្តិការណ៍' },
-  { to: '/gallery', label: 'វិចិត្រសាល' },
+  { to: '/news', label: 'ព័ត៌មានទូទៅ' },
+  { to: '/calendar', label: 'ប្រតិទិនខ្មែរ' },
+  { to: '/books', label: 'បណ្ណាល័យសៀវភៅ' },
   { to: '/contact', label: 'ទំនាក់ទំនង' },
 ]
 
@@ -106,11 +107,6 @@ const year = new Date().getFullYear()
           © {{ year }} វត្តទេពបុរី. រក្សាសិទ្ធិគ្រប់យ៉ាង។
         </span>
 
-        <span class="text-white/20">·</span>
-
-        <RouterLink to="/admin/login" class="hover:text-white/60">
-          Admin
-        </RouterLink>
       </p>
     </div>
 

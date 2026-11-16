@@ -1,4 +1,5 @@
 <script setup>
+import { recordId } from '../lib/publicLinks'
 import { useLocale } from '../composables/useLocale'
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
@@ -22,7 +23,7 @@ const {
   error,
   load,
 } = useApiResource(
-  () => api.get(`/events/${route.params.id}`),
+  () => api.get(`/events/${recordId(route.params.id)}`),
   { initial: null }
 )
 

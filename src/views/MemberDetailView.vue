@@ -1,4 +1,5 @@
 <script setup>
+import { recordId } from '../lib/publicLinks'
 import { useLocale } from '../composables/useLocale'
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
@@ -15,7 +16,7 @@ const {
   loading,
   error,
   load,
-} = useApiResource(() => api.get(`/members/${route.params.id}`), { initial: null })
+} = useApiResource(() => api.get(`/members/${recordId(route.params.id)}`), { initial: null })
 
 const displayName = computed(() =>
   locale.value === 'en' && member.value?.name_en ? member.value.name_en : member.value?.name

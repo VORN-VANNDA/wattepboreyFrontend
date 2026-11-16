@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-// ដាក់ Render URL ជា Fallback ជំនួសឱ្យ '/api'
-const API_BASE = import.meta.env.VITE_API_URL || 'https://tebpoery-backend.onrender.com/api'
+// Use the local Vite proxy during development; allow an explicit API URL override.
+const API_BASE = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV ? '/api' : 'https://tebpoery-backend.onrender.com/api'
+)
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -24,12 +26,12 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    const onAdminRoute = window.location.pathname.startsWith('/admin')
-    const onLoginPage = window.location.pathname === '/admin/login'
+    const onAdminRoute = window.location.pathname.startsWith('/portal-manage')
+    const onLoginPage = window.location.pathname === '/portal-manage/login'
     if (err.response?.status === 401 && onAdminRoute && !onLoginPage) {
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(ADMIN_KEY)
-      window.location.href = '/admin/login'
+      window.location.href = '/portal-manage/login'
     }
     return Promise.reject(err)
   }

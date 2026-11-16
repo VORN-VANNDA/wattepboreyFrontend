@@ -1,4 +1,5 @@
 <script setup>
+import { publicPath, recordId } from '../lib/publicLinks'
 import { useLocale } from '../composables/useLocale'
 import { computed, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
@@ -18,7 +19,7 @@ const {
   error,
   load,
 } = useApiResource(
-  () => api.get(`/slides/${route.params.id}`),
+  () => api.get(`/slides/${recordId(route.params.id)}`),
   { initial: null }
 )
 
@@ -115,7 +116,7 @@ const relatedSlides = computed(() => {
   if (!Array.isArray(slides.value)) return []
 
   return slides.value
-    .filter(item => String(item.id) !== String(route.params.id))
+    .filter(item => String(item.id) !== String(recordId(route.params.id)))
     .sort((a, b) => {
       const dateA = new Date(a.created_at || a.updated_at || 0)
       const dateB = new Date(b.created_at || b.updated_at || 0)
@@ -346,7 +347,7 @@ const relatedSlides = computed(() => {
               <RouterLink
                 v-for="item in relatedSlides"
                 :key="item.id"
-                :to="`/slides/${item.id}`"
+                :to="publicPath('slides', item.id)"
                 class="group flex gap-4 py-5 first:pt-0"
               >
 

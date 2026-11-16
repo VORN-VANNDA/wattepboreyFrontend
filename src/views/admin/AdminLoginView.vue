@@ -17,7 +17,7 @@ async function handleSubmit() {
   error.value = ''
   try {
     await login(form.username, form.password)
-    router.push(route.query.redirect || '/admin/members')
+    router.push(route.query.redirect || '/portal-manage/members')
   } catch (err) {
     error.value = err?.response?.data?.message || 'ចូលប្រើប្រាស់មិនជោគជ័យ សូមពិនិត្យមើលឈ្មោះ/ពាក្យសម្ងាត់។'
   } finally {

@@ -1,7 +1,14 @@
+import { matchPublicPath } from '../lib/publicLinks'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 
 const routes = [
+  { path: '/books', name: 'books', component: () => import('../views/BooksView.vue') },
+  { path: '/books/:id', name: 'book-detail', component: () => import('../views/BookDetailView.vue') },
+  { path: '/news', name: 'news', component: () => import('../views/NewsView.vue') },
+  { path: '/calendar', name: 'calendar', component: () => import('../views/CalendarView.vue') },
+  { path: '/news/:id', name: 'news-detail', component: () => import('../views/NewsDetailView.vue') },
+  { path: '/pchum-ben/:id', name: 'pchum-ben-detail', component: () => import('../views/PchumBenDetailView.vue') },
   // ---- Public site ----------------------------------------------------
   {
     path: '/',
@@ -26,7 +33,7 @@ const routes = [
   {
     path: '/events',
     name: 'events',
-    component: () => import('../views/EventsView.vue')
+    redirect: '/news'
   },
   {
   path: '/events/:id',
@@ -41,7 +48,7 @@ const routes = [
   {
     path: '/gallery',
     name: 'gallery',
-    component: () => import('../views/GalleryView.vue'),
+    redirect: '/books',
   },
   {
     path: '/contact',
@@ -51,15 +58,19 @@ const routes = [
 
   // ---- Admin dashboard --------------------------------------------------
   {
-    path: '/admin/login',
+    path: '/portal-manage/login',
     name: 'admin-login',
     component: () => import('../views/admin/AdminLoginView.vue'),
   },
   {
-    path: '/admin',
+    path: '/portal-manage',
     component: () => import('../layouts/AdminLayout.vue'),
     meta: { requiresAuth: true },
     children: [
+      { path: 'books', name: 'admin-books', component: () => import('../views/admin/AdminBooksView.vue') },
+      { path: 'news', name: 'admin-news', component: () => import('../views/admin/AdminNewsView.vue') },
+      { path: 'calendar', name: 'admin-calendar', component: () => import('../views/admin/AdminCalendarView.vue') },
+      { path: 'pchum-ben', name: 'admin-pchum-ben', component: () => import('../views/admin/AdminPchumBenView.vue') },
       { path: '', redirect: { name: 'admin-members' } },
       {
         path: 'members',
@@ -117,6 +128,10 @@ const router = createRouter({
 // dashboard token. Unauthenticated visits are bounced to /admin/login with
 // a `redirect` query param so they land back where they meant to go.
 router.beforeEach((to) => {
+  const publicRoute = matchPublicPath(to.path)
+  if (publicRoute?.canonical && publicRoute.canonical !== to.path) {
+    return { path: publicRoute.canonical, query: to.query, hash: to.hash, replace: true }
+  }
   if (!to.meta.requiresAuth) return true
 
   const { isAuthenticated } = useAuth()
