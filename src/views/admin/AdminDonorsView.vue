@@ -7,7 +7,14 @@ import ImageUploader from '../../components/admin/ImageUploader.vue'
 
 const { items: donors, loading, saving, error, create, update, remove } = useAdminCrud('/donors')
 
-const ROLE_OPTIONS = ['មហាពុទ្ធសាសនូបត្ថម្ភ', 'នាមសប្បុរស']
+const ROLE_OPTIONS = [
+  'មហាពុទ្ធសាសនូបត្ថម្ភ',
+  'នាមសប្បុរស',
+  'មហាឧបាសិកា',
+  'មហាឧបាសក',
+  'ឧបាសិកា',
+  'ឧបាសក',
+]
 
 const modalOpen = ref(false)
 const editingId = ref(null)
@@ -15,6 +22,7 @@ const editingId = ref(null)
 const emptyForm = () => ({
   name: '',
   role: 'នាមសប្បុរស',
+  description: '',
   image_url: '',
   display_order: 0,
 })
@@ -32,6 +40,7 @@ function openEdit(donor) {
   Object.assign(form, {
     name: donor.name,
     role: donor.role,
+    description: donor.description || '',
     image_url: donor.image_url || '',
     display_order: donor.display_order || 0,
   })
@@ -55,7 +64,7 @@ async function handleDelete(donor) {
     <div class="flex items-center justify-between">
       <div>
         <h1 class="font-display text-2xl text-forest">សប្បុរសជន (Donors)</h1>
-        <p class="mt-1 text-sm text-gray-500">គ្រប់គ្រងបញ្ជីសប្បុរសជនបង្ហាញលើទំព័រ "សកម្មភាព"</p>
+        <p class="mt-1 text-sm text-gray-500">គ្រប់គ្រងបញ្ជីសប្បុរសជនបង្ហាញលើទំព័រ "សប្បុរសជន"</p>
       </div>
       <button type="button" class="btn-gold !py-2.5 text-sm" @click="openCreate">
         <Plus class="h-4 w-4" />
@@ -88,7 +97,10 @@ async function handleDelete(donor) {
                 alt=""
               />
             </td>
-            <td class="px-5 py-3 font-medium text-forest">{{ donor.name }}</td>
+            <td class="px-5 py-3">
+              <p class="font-medium text-forest">{{ donor.name }}</p>
+              <p v-if="donor.description" class="mt-0.5 line-clamp-1 text-xs text-gray-500">{{ donor.description }}</p>
+            </td>
             <td class="px-5 py-3">
               <span class="rounded-full bg-cream px-2.5 py-1 text-xs font-medium text-forest">
                 {{ donor.role }}
@@ -121,6 +133,16 @@ async function handleDelete(donor) {
           <select v-model="form.role" class="w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-gold">
             <option v-for="option in ROLE_OPTIONS" :key="option" :value="option">{{ option }}</option>
           </select>
+        </div>
+
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">ពិពណ៌នា (ជម្រើស)</label>
+          <textarea
+            v-model="form.description"
+            rows="4"
+            placeholder="សរសេរអំពីការឧបត្ថម្ភរបស់លោក/លោកស្រី..."
+            class="w-full resize-none rounded-lg border border-black/10 px-4 py-2.5 text-sm leading-relaxed outline-none focus:border-gold"
+          />
         </div>
 
         <ImageUploader v-model="form.image_url" folder="donors" label="រូបភាព" />
