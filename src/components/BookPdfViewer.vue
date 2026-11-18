@@ -214,4 +214,13 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </div>
+  <div v-if="pageCount" class="fixed bottom-4 left-1/2 z-50 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-full border border-gold/40 bg-white/95 px-3 py-2 shadow-xl backdrop-blur" aria-label="ប្តូរទំព័រសៀវភៅ">
+    <button type="button" :disabled="pageNumber <= 1" class="rounded-full p-2 text-forest disabled:opacity-35" aria-label="ទំព័រមុន" @click="goToPage(pageNumber - 1)"><ChevronLeft class="h-5 w-5" /></button>
+    <form class="flex items-center gap-1 text-sm text-forest" @submit.prevent="handlePageSubmit">
+      <input name="page" :value="pageNumber" type="number" inputmode="numeric" min="1" :max="pageCount" class="w-14 rounded-md border border-gold/50 px-1 py-1 text-center" aria-label="លេខទំព័រ" @change="goToPage($event.target.value)" />
+      <span class="whitespace-nowrap">/ {{ pageCount }}</span>
+      <button type="submit" class="rounded-md bg-gold px-2 py-1 text-xs font-semibold text-white">ទៅ</button>
+    </form>
+    <button type="button" :disabled="pageNumber >= pageCount" class="rounded-full p-2 text-forest disabled:opacity-35" aria-label="ទំព័របន្ទាប់" @click="goToPage(pageNumber + 1)"><ChevronRight class="h-5 w-5" /></button>
+  </div>
 </template>
