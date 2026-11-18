@@ -19,9 +19,9 @@ const router = useRouter()
 
 const navItems = [
   { to: '/portal-manage/calendar', label: 'ប្រតិទិនខ្មែរ (Calendar)', icon: CalendarDays },
-  { to: '/portal-manage/books', label: '????????????? (Books)', icon: ImageIcon },
+  { to: '/portal-manage/books', label: 'បណ្ណាល័យសៀវភៅ (Books)', icon: ImageIcon },
   { to: '/portal-manage/news', label: 'ព័ត៌មានទូទៅ (News)', icon: CalendarDays },
-  { to: '/portal-manage/pchum-ben', label: '??????????????????', icon: CalendarDays },
+  { to: '/portal-manage/pchum-ben', label: 'ពិធីបុណ្យកាន់បិណ្ឌ', icon: CalendarDays },
   { to: '/portal-manage/members', label: 'សមាជិក (Members)', icon: Users },
   { to: '/portal-manage/slides', label: 'ស្លាយទំព័រដើម (Slides)', icon: PanelsTopLeft },
   { to: '/portal-manage/events', label: 'ព្រឹត្តិការណ៍ (Events)', icon: CalendarDays },
