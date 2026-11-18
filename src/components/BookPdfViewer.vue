@@ -4,7 +4,9 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ZoomIn, ZoomOut
 import * as pdfjs from 'pdfjs-dist/build/pdf.mjs'
 import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
-pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
+// The version query prevents a CDN from reusing an older worker response with
+// an incorrect MIME type after a deployment.
+pdfjs.GlobalWorkerOptions.workerSrc = `${workerSrc}?v=20261118`
 const props = defineProps({ blob: { type: Blob, required: true } })
 const frame = ref(null)
 const pageNumber = ref(1)
