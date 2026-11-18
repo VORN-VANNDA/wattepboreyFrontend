@@ -27,6 +27,17 @@ async function handleFileChange(e) {
   const file = e.target.files?.[0]
   if (!file) return
 
+  if (file.type !== 'application/pdf' || !file.name.toLowerCase().endsWith('.pdf')) {
+    error.value = 'សូមជ្រើសរើសតែឯកសារ PDF ប៉ុណ្ណោះ'
+    if (fileInput.value) fileInput.value.value = ''
+    return
+  }
+  if (file.size > 25 * 1024 * 1024) {
+    error.value = 'ឯកសារ PDF ត្រូវតែមានទំហំមិនលើស 25 MB'
+    if (fileInput.value) fileInput.value.value = ''
+    return
+  }
+
   uploading.value = true
   error.value = ''
 
@@ -53,7 +64,7 @@ function clearFile() {
 </script>
 
 <template>
-  <div>
+  <div class="font-khmer">
     <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ label }}</label>
 
     <div v-if="modelValue" class="flex items-center gap-3 rounded-lg border border-black/10 bg-cream px-4 py-3">

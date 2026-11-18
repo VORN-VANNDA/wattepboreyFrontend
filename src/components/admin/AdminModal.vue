@@ -17,7 +17,7 @@ defineEmits(['close'])
     >
       <div class="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl2 bg-white p-6 shadow-card sm:p-8">
         <div class="mb-6 flex items-center justify-between">
-          <h3 class="font-display text-lg text-forest">{{ title }}</h3>
+          <h3 class="font-khmer text-lg font-semibold text-forest">{{ title }}</h3>
           <button
             type="button"
             class="grid h-8 w-8 place-items-center rounded-full text-gray-400 transition hover:bg-cream hover:text-forest"

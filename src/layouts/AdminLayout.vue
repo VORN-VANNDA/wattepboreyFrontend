@@ -39,7 +39,7 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-cream">
+  <div class="flex min-h-screen bg-cream font-khmer">
     <!-- Sidebar -->
     <aside class="flex w-64 shrink-0 flex-col bg-forest-dark text-white/80">
       <div class="border-b border-white/10 px-6 py-6">

@@ -18,6 +18,12 @@ async function handleFileChange(e) {
   const file = e.target.files?.[0]
   if (!file) return
 
+  if (file.size > 5 * 1024 * 1024) {
+    error.value = 'រូបភាពត្រូវតែមានទំហំមិនលើស 5 MB'
+    if (fileInput.value) fileInput.value.value = ''
+    return
+  }
+
   uploading.value = true
   error.value = ''
 
@@ -39,7 +45,7 @@ async function handleFileChange(e) {
 </script>
 
 <template>
-  <div>
+  <div class="font-khmer">
     <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ label }}</label>
 
     <div class="flex items-center gap-4">
