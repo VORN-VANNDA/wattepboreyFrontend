@@ -7,7 +7,7 @@ import { metadata, renderMetadata } from './worker.js'
 const root = resolve(process.env.STATIC_ROOT || '/usr/share/nginx/html')
 const api = process.env.API_INTERNAL_URL || 'http://api:5000/api'
 const publicOrigin = process.env.PUBLIC_SITE_ORIGIN || 'https://wattepborey.com'
-const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.pdf': 'application/pdf' }
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.pdf': 'application/pdf' }
 
 createServer(async (req, res) => {
   try {

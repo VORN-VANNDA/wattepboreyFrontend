@@ -1,6 +1,6 @@
 <script setup>
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-vue-next'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ZoomIn, ZoomOut } from 'lucide-vue-next'
 import * as pdfjs from 'pdfjs-dist/build/pdf.mjs'
 import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
@@ -128,6 +128,10 @@ function goToPage(value) {
   pageNodes.get(number)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
+function handlePageSubmit(event) {
+  goToPage(event.currentTarget.elements.page.value)
+}
+
 watch(() => props.blob, async blob => {
   const version = ++generation
   renderObserver?.disconnect()
@@ -185,10 +189,17 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="rounded-xl border border-black/10 bg-cream">
-    <div class="flex flex-wrap items-center justify-center gap-2 border-b border-black/10 bg-white px-3 py-3 sm:gap-4">
-      <button type="button" :disabled="pageNumber <= 1" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័រមុន" @click="goToPage(pageNumber - 1)"><ChevronLeft class="h-5 w-5" /></button>
-      <label class="flex items-center gap-2 text-sm">ទំព័រ <input :value="pageNumber" type="number" min="1" :max="pageCount" class="w-16 rounded border px-2 py-1 text-center" aria-label="លេខទំព័រ" @change="goToPage($event.target.value)" /> / {{ pageCount || '…' }}</label>
-      <button type="button" :disabled="pageNumber >= pageCount" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័របន្ទាប់" @click="goToPage(pageNumber + 1)"><ChevronRight class="h-5 w-5" /></button>
+    <div class="sticky top-2 z-10 flex flex-wrap items-center justify-center gap-2 border-b border-black/10 bg-white/95 px-3 py-3 shadow-sm backdrop-blur sm:gap-3">
+      <button type="button" :disabled="pageNumber <= 1" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័រដំបូង" title="ទំព័រដំបូង" @click="goToPage(1)"><ChevronsLeft class="h-5 w-5" /></button>
+      <button type="button" :disabled="pageNumber <= 1" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័រមុន" title="ទំព័រមុន" @click="goToPage(pageNumber - 1)"><ChevronLeft class="h-5 w-5" /></button>
+      <form class="flex items-center gap-2 text-sm" @submit.prevent="handlePageSubmit">
+        <label for="book-page" class="hidden sm:inline">ទៅទំព័រ</label>
+        <input id="book-page" name="page" :value="pageNumber" type="number" inputmode="numeric" min="1" :max="pageCount" class="w-16 rounded border px-2 py-1 text-center" aria-label="លេខទំព័រ" @change="goToPage($event.target.value)" />
+        <span>/ {{ pageCount || '…' }}</span>
+        <button type="submit" class="rounded-md border border-gold px-2 py-1 text-xs font-semibold text-forest hover:bg-gold/10">ទៅ</button>
+      </form>
+      <button type="button" :disabled="pageNumber >= pageCount" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័របន្ទាប់" title="ទំព័របន្ទាប់" @click="goToPage(pageNumber + 1)"><ChevronRight class="h-5 w-5" /></button>
+      <button type="button" :disabled="pageNumber >= pageCount" class="rounded-lg border p-2 disabled:opacity-40" aria-label="ទំព័រចុងក្រោយ" title="ទំព័រចុងក្រោយ" @click="goToPage(pageCount)"><ChevronsRight class="h-5 w-5" /></button>
       <span class="mx-1 hidden h-6 border-l border-black/10 sm:block" aria-hidden="true" />
       <button type="button" :disabled="zoom <= 0.7" class="hidden rounded-lg border p-2 disabled:opacity-40 sm:block" aria-label="បង្រួម" @click="zoom = Math.max(0.7, zoom - 0.2)"><ZoomOut class="h-5 w-5" /></button>
       <button type="button" :disabled="zoom >= 2" class="hidden rounded-lg border p-2 disabled:opacity-40 sm:block" aria-label="ពង្រីក" @click="zoom = Math.min(2, zoom + 0.2)"><ZoomIn class="h-5 w-5" /></button>
