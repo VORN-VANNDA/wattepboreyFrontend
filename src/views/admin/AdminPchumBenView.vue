@@ -61,7 +61,7 @@ async function deletePost(post) {
 <template>
   <div>
     <div class="flex flex-wrap items-center justify-between gap-4">
-      <div><h1 class="font-display text-2xl text-forest">ពិធីបុណ្យកាន់បិណ្ឌ</h1><p class="mt-2 text-sm text-gray-500">គ្រប់គ្រងព័ត៌មាន និងរូបភាពដែលបង្ហាញខាងក្រោម slide នៅទំព័រដើម</p></div>
+      <div><h1 class="font-display text-2xl text-forest">ពិធីបុណ្យនានា</h1><p class="mt-2 text-sm text-gray-500">គ្រប់គ្រងព័ត៌មាន និងរូបភាពដែលបង្ហាញខាងក្រោម slide នៅទំព័រដើម</p></div>
       <button class="btn-gold" @click="open()"><Plus class="h-4 w-4" /> បន្ថែមថ្មី</button>
     </div>
     <p v-if="error && !modalOpen" class="mt-5 text-red-600" role="alert">{{ error }}</p>
@@ -75,7 +75,7 @@ async function deletePost(post) {
         </div>
       </article>
     </div>
-    <AdminModal :open="modalOpen" :title="editingId ? 'កែប្រែព័ត៌មានពិធីបុណ្យកាន់បិណ្ឌ' : 'បន្ថែមព័ត៌មានពិធីបុណ្យកាន់បិណ្ឌ'" @close="close">
+    <AdminModal :open="modalOpen" :title="editingId ? 'កែប្រែព័ត៌មានពិធីបុណ្យ' : 'បន្ថែមព័ត៌មានពិធីបុណ្យ'" @close="close">
       <form class="space-y-5" @submit.prevent="save">
         <fieldset :disabled="saving || uploading" class="space-y-5 disabled:opacity-70">
           <label class="block text-sm text-forest">ចំណងជើង<input v-model="form.title" required maxlength="255" class="mt-2 w-full rounded-lg border border-black/10 px-4 py-3" /></label>

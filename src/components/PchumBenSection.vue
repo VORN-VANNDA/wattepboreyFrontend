@@ -24,7 +24,7 @@ const visiblePosts = computed(() => posts.value.slice(0, 6))
     <div v-else-if="error" class="mt-10 text-center text-gray-500" role="alert">
       មិនអាចទាញយកព័ត៌មានបាន។ <button class="text-gold-dark underline" @click="load()">ព្យាយាមម្ដងទៀត</button>
     </div>
-    <p v-else-if="!posts.length" class="mt-10 text-center text-gray-500">ព័ត៌មានពិធីបុណ្យកាន់បិណ្ឌនឹងផ្សាយនៅទីនេះ។</p>
+    <p v-else-if="!posts.length" class="mt-10 text-center text-gray-500">ព័ត៌មានពិធីបុណ្យនានានឹងផ្សាយនៅទីនេះ។</p>
     <div v-else class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
       <RouterLink v-for="post in visiblePosts" :key="post.id" :to="publicPath('pchum-ben', post.id)" class="group flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-card focus-visible:outline-gold">
         <div class="relative aspect-video overflow-hidden bg-cream">
@@ -32,9 +32,9 @@ const visiblePosts = computed(() => posts.value.slice(0, 6))
         </div>
         <div class="flex flex-1 flex-col p-5">
           <p class="flex items-center gap-2 text-xs text-gray-500"><CalendarDays class="h-4 w-4 text-gold-dark" /><time :datetime="post.event_date">{{ postDate(post.event_date) }}</time></p>
-          <h3 class="mt-3 font-khmer text-xl font-semibold leading-[1.8] text-forest">{{ post.title }}</h3>
+          <h3 class="mt-3 line-clamp-3 font-khmer text-xl font-semibold leading-[1.8] text-forest">{{ post.title }}</h3>
           <p class="mb-5 mt-3 line-clamp-3 font-khmer text-sm leading-loose text-gray-500">{{ post.excerpt || post.description }}</p>
-          <span class="mt-auto flex items-center justify-between border-t border-black/5 pt-4 text-sm text-gold-dark">អានបន្ត <ArrowRight class="h-4 w-4" /></span>
+          <span class="mt-auto flex items-center justify-between border-t border-black/5 pt-4 text-sm font-semibold text-gold-dark">អានបន្ថែម... <ArrowRight class="h-4 w-4" /></span>
         </div>
       </RouterLink>
     </div>

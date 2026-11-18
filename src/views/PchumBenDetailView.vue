@@ -16,7 +16,7 @@ watch(() => recordId(route.params.id), () => load(), { immediate: true })
     <div v-if="loading" class="mt-8 h-96 animate-pulse rounded-2xl bg-cream" aria-label="កំពុងផ្ទុក" />
     <div v-else-if="error" class="my-16 text-center" role="alert"><p class="text-red-600">{{ error }}</p><button class="mt-4 text-gold-dark underline" @click="load()">ព្យាយាមម្ដងទៀត</button></div>
     <article v-else-if="post" class="mt-8">
-      <p class="text-sm font-semibold text-gold-dark">ពិធីបុណ្យកាន់បិណ្ឌ</p>
+      <p class="text-sm font-semibold text-gold-dark">ពិធីបុណ្យនានា</p>
       <h1 class="mt-3 font-khmer text-2xl font-semibold leading-[1.8] text-forest sm:text-3xl sm:leading-[1.8]">{{ post.title }}</h1>
       <p class="my-5 flex items-center gap-2 text-sm text-gray-500"><CalendarDays class="h-4 w-4" /><time :datetime="post.event_date">{{ postDate(post.event_date) }}</time></p>
       <img :src="postImage(post.images[0])" :alt="post.title" class="max-h-[600px] w-full rounded-2xl bg-cream object-contain" />
