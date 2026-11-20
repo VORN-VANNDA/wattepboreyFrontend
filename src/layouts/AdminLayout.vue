@@ -39,15 +39,15 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-cream font-khmer">
+  <div class="flex h-screen overflow-hidden bg-cream font-khmer">
     <!-- Sidebar -->
-    <aside class="flex w-64 shrink-0 flex-col bg-forest-dark text-white/80">
+    <aside class="flex h-full w-64 shrink-0 flex-col bg-forest-dark text-white/80">
       <div class="border-b border-white/10 px-6 py-6">
         <p class="font-display text-lg text-gold">វត្តទេពបុរី</p>
         <p class="text-xs text-white/40">Admin Dashboard</p>
       </div>
 
-      <nav class="flex-1 space-y-1 px-3 py-6">
+      <nav class="min-h-0 flex-1 space-y-1 overflow-y-auto px-3 py-6">
         <RouterLink
           v-for="item in navItems"
           :key="item.to"
@@ -83,7 +83,7 @@ function handleLogout() {
     </aside>
 
     <!-- Content -->
-    <main class="flex-1 overflow-y-auto p-8">
+    <main class="min-w-0 flex-1 overflow-y-auto p-8">
       <RouterView />
     </main>
   </div>
