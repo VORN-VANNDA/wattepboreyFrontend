@@ -28,7 +28,7 @@ const routes = [
   {
     path: '/dhamma',
     name: 'dhamma',
-    component: () => import('../views/DhammaView.vue'),
+    redirect: '/gallery',
   },
   {
     path: '/events',
@@ -48,7 +48,7 @@ const routes = [
   {
     path: '/gallery',
     name: 'gallery',
-    redirect: '/books',
+    component: () => import('../views/GalleryView.vue'),
   },
   {
     path: '/contact',

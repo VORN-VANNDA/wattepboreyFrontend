@@ -1,7 +1,7 @@
 <script setup>
 import { useLocale } from '../composables/useLocale'
 import { ref, computed, watch } from 'vue'
-import { Search, Images, X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { Search, Images, X, ChevronLeft, ChevronRight, Download } from 'lucide-vue-next'
 
 import { useApiResource } from '../composables/useApiResource'
 import api from '../lib/api'
@@ -14,6 +14,7 @@ const activeYear = ref('all')
 const activeCategory = ref('all')
 const selectedAlbum = ref(null)
 const selectedIndex = ref(0)
+const downloading = ref(false)
 
 const { data: years } = useApiResource(() => api.get('/gallery/years'))
 const { data: photos, loading, error, load } = useApiResource(() => api.get('/gallery'))
@@ -61,12 +62,37 @@ function stepPhoto(offset) {
   const total = selectedAlbum.value.photos.length
   selectedIndex.value = (selectedIndex.value + offset + total) % total
 }
+
+async function downloadCurrent() {
+  const photo = selectedAlbum.value?.photos[selectedIndex.value]
+  if (!photo || downloading.value) return
+  downloading.value = true
+  try {
+    const response = await fetch(photo.image_url)
+    if (!response.ok) throw new Error('Download failed')
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    const extension = photo.image_url.match(/\.(jpe?g|png|webp|gif)(?:[?#]|$)/i)?.[1] || 'jpg'
+    link.href = url
+    link.download = `${selectedAlbum.value.title}-${selectedIndex.value + 1}.${extension}`
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    URL.revokeObjectURL(url)
+  } catch {
+    window.open(photo.image_url, '_blank', 'noopener,noreferrer')
+  } finally {
+    downloading.value = false
+  }
+}
 </script>
 
 <template>
   <div>
     <section class="bg-forest-dark py-20 text-center text-white">
       <h1 class="font-display text-3xl sm:text-4xl">{{ t('gallery.title') }}</h1>
+      <p class="mx-auto mt-4 max-w-2xl px-5 text-sm leading-loose text-white/75 sm:text-base">ទស្សនារូបភាពសកម្មភាព ពិធីបុណ្យ និងទិដ្ឋភាពនានារបស់វត្តទេពបុរី។</p>
     </section>
 
     <section class="mx-auto max-w-7xl px-5 py-16 lg:px-10">
@@ -162,7 +188,7 @@ function stepPhoto(offset) {
       <div v-if="selectedAlbum" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" :aria-label="selectedAlbum.title" @click.self="closeAlbum">
         <div class="relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-2xl bg-white p-4 shadow-2xl sm:p-6">
           <button type="button" class="absolute right-3 top-3 z-10 rounded-full bg-black/60 p-2 text-white" aria-label="បិទ" @click="closeAlbum"><X class="h-5 w-5" /></button>
-          <div class="mb-4 pr-10"><h2 class="font-khmer text-xl font-semibold text-forest">{{ selectedAlbum.title }}</h2><p class="mt-1 text-sm text-gray-500">{{ selectedAlbum.year }} · {{ selectedAlbum.photos.length }} រូប</p></div>
+          <div class="mb-4 flex items-start justify-between gap-3 pr-10"><div><h2 class="font-khmer text-xl font-semibold text-forest">{{ selectedAlbum.title }}</h2><p class="mt-1 text-sm text-gray-500">{{ selectedAlbum.year }} · {{ selectedAlbum.photos.length }} រូប</p></div><button type="button" :disabled="downloading" class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-gold px-3 py-2 text-sm font-semibold text-forest hover:bg-gold/10 disabled:opacity-50" @click="downloadCurrent"><Download class="h-4 w-4" /> {{ downloading ? 'កំពុងរក្សាទុក...' : 'រក្សាទុករូប' }}</button></div>
           <div class="relative rounded-xl bg-cream p-2 sm:p-4">
             <img :src="selectedAlbum.photos[selectedIndex].image_url" :alt="selectedAlbum.title" class="mx-auto max-h-[68vh] w-auto max-w-full rounded-lg object-contain" />
             <button v-if="selectedAlbum.photos.length > 1" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white" aria-label="រូបមុន" @click="stepPhoto(-1)"><ChevronLeft class="h-6 w-6" /></button>

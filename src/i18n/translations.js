@@ -60,7 +60,7 @@ export default {
   'events.pastHeading': 'កម្មវិធីដែលបានបញ្ចប់',
   'events.weeklyBadge': 'ប្រចាំសប្តាហ៍',
 
-  'gallery.title': 'បណ្ណាល័យរូបភាព',
+  'gallery.title': 'ទិដ្ឋភាពទូទៅ',
   'gallery.searchPlaceholder': 'ស្វែងរករូបភាពនានា...',
 
   'contact.title': 'ទំនាក់ទំនង',
