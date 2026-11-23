@@ -1,7 +1,7 @@
 <script setup>
 import { useLocale } from '../composables/useLocale'
 import { ref, computed, watch } from 'vue'
-import { Search } from 'lucide-vue-next'
+import { Search, Images, X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
 import { useApiResource } from '../composables/useApiResource'
 import api from '../lib/api'
@@ -12,6 +12,8 @@ const { t } = useLocale()
 const searchTerm = ref('')
 const activeYear = ref('all')
 const activeCategory = ref('all')
+const selectedAlbum = ref(null)
+const selectedIndex = ref(0)
 
 const { data: years } = useApiResource(() => api.get('/gallery/years'))
 const { data: photos, loading, error, load } = useApiResource(() => api.get('/gallery'))
@@ -36,6 +38,29 @@ const filteredPhotos = computed(() => {
   const q = searchTerm.value.trim().toLowerCase()
   return photos.value.filter((p) => p.title.toLowerCase().includes(q))
 })
+
+// Photos uploaded together share the same event/album name, category and year.
+// Grouping here preserves existing records without a database migration.
+const albums = computed(() => {
+  const groups = new Map()
+  for (const photo of filteredPhotos.value) {
+    const key = `${photo.year}|${photo.category}|${photo.title}`
+    if (!groups.has(key)) groups.set(key, { key, title: photo.title, year: photo.year, category: photo.category, photos: [] })
+    groups.get(key).photos.push(photo)
+  }
+  return [...groups.values()]
+})
+
+function openAlbum(album, index = 0) {
+  selectedAlbum.value = album
+  selectedIndex.value = index
+}
+function closeAlbum() { selectedAlbum.value = null; selectedIndex.value = 0 }
+function stepPhoto(offset) {
+  if (!selectedAlbum.value) return
+  const total = selectedAlbum.value.photos.length
+  selectedIndex.value = (selectedIndex.value + offset + total) % total
+}
 </script>
 
 <template>
@@ -106,28 +131,48 @@ const filteredPhotos = computed(() => {
           ព្យាយាមម្តងទៀត
         </button>
       </p>
-      <p v-else-if="!filteredPhotos.length" class="mt-12 text-center text-sm text-gray-500">
+      <p v-else-if="!albums.length" class="mt-12 text-center text-sm text-gray-500">
         {{ t('common.empty') }}
       </p>
 
       <div v-else class="fade-in mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        <figure
-          v-for="photo in filteredPhotos"
-          :key="photo.id"
-          class="group relative aspect-square overflow-hidden rounded-xl2"
+        <button
+          v-for="album in albums"
+          :key="album.key"
+          type="button"
+          class="group relative aspect-square overflow-hidden rounded-xl2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
+          @click="openAlbum(album)"
         >
           <img
-            :src="photo.image_url || 'https://placehold.co/500x500/2C5038/F7F6F1?text=Wat+Tepborey'"
-            :alt="photo.title"
+            :src="album.photos[0].image_url || 'https://placehold.co/500x500/2C5038/F7F6F1?text=Wat+Tepborey'"
+            :alt="album.title"
             class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
           />
           <figcaption
-            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 text-xs text-white opacity-0 transition group-hover:opacity-100"
+            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100"
           >
-            {{ photo.title }}
+            <span class="block font-semibold">{{ album.title }}</span>
+            <span class="mt-1 flex items-center gap-1 text-white/80"><Images class="h-3.5 w-3.5" /> {{ album.photos.length }} រូប · {{ album.year }}</span>
           </figcaption>
-        </figure>
+        </button>
       </div>
     </section>
+
+    <Teleport to="body">
+      <div v-if="selectedAlbum" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" :aria-label="selectedAlbum.title" @click.self="closeAlbum">
+        <div class="relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-2xl bg-white p-4 shadow-2xl sm:p-6">
+          <button type="button" class="absolute right-3 top-3 z-10 rounded-full bg-black/60 p-2 text-white" aria-label="បិទ" @click="closeAlbum"><X class="h-5 w-5" /></button>
+          <div class="mb-4 pr-10"><h2 class="font-khmer text-xl font-semibold text-forest">{{ selectedAlbum.title }}</h2><p class="mt-1 text-sm text-gray-500">{{ selectedAlbum.year }} · {{ selectedAlbum.photos.length }} រូប</p></div>
+          <div class="relative rounded-xl bg-cream p-2 sm:p-4">
+            <img :src="selectedAlbum.photos[selectedIndex].image_url" :alt="selectedAlbum.title" class="mx-auto max-h-[68vh] w-auto max-w-full rounded-lg object-contain" />
+            <button v-if="selectedAlbum.photos.length > 1" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white" aria-label="រូបមុន" @click="stepPhoto(-1)"><ChevronLeft class="h-6 w-6" /></button>
+            <button v-if="selectedAlbum.photos.length > 1" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white" aria-label="រូបបន្ទាប់" @click="stepPhoto(1)"><ChevronRight class="h-6 w-6" /></button>
+          </div>
+          <div v-if="selectedAlbum.photos.length > 1" class="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-8">
+            <button v-for="(photo, index) in selectedAlbum.photos" :key="photo.id" type="button" class="aspect-square overflow-hidden rounded-md ring-offset-2" :class="index === selectedIndex ? 'ring-2 ring-gold' : 'opacity-70 hover:opacity-100'" @click="selectedIndex = index"><img :src="photo.image_url" :alt="`${selectedAlbum.title} ${index + 1}`" class="h-full w-full object-cover" /></button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>

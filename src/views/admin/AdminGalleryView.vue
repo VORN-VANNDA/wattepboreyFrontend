@@ -4,8 +4,10 @@ import { Plus, Pencil, Trash2 } from 'lucide-vue-next'
 import { useAdminCrud } from '../../composables/useAdminCrud'
 import AdminModal from '../../components/admin/AdminModal.vue'
 import ImageUploader from '../../components/admin/ImageUploader.vue'
+import GalleryUploader from '../../components/admin/GalleryUploader.vue'
+import api from '../../lib/api'
 
-const { items: photos, loading, saving, error, create, update, remove } = useAdminCrud('/gallery')
+const { items: photos, loading, saving, error, fetchAll, create, update, remove } = useAdminCrud('/gallery')
 
 const categoryLabels = {
   ceremony: 'ពិធីបុណ្យទាន',
@@ -16,18 +18,22 @@ const categoryLabels = {
 
 const modalOpen = ref(false)
 const editingId = ref(null)
+const batchSaving = ref(false)
+const batchError = ref('')
 
 const emptyForm = () => ({
   title: '',
   category: 'other',
   year: new Date().getFullYear(),
   image_url: '',
+  image_urls: [],
 })
 const form = reactive(emptyForm())
 
 function openCreate() {
   editingId.value = null
   Object.assign(form, emptyForm())
+  batchError.value = ''
   modalOpen.value = true
 }
 
@@ -38,12 +44,36 @@ function openEdit(photo) {
     category: photo.category,
     year: photo.year,
     image_url: photo.image_url,
+    image_urls: [],
   })
   modalOpen.value = true
 }
 
 async function handleSubmit() {
-  const ok = editingId.value ? await update(editingId.value, form) : await create(form)
+  batchError.value = ''
+  if (!editingId.value) {
+    if (!form.image_urls.length) {
+      batchError.value = 'សូមជ្រើសរើសរូបភាពយ៉ាងតិចមួយសន្លឹក'
+      return
+    }
+    batchSaving.value = true
+    try {
+      await api.post('/gallery/batch', {
+        title: form.title,
+        category: form.category,
+        year: form.year,
+        image_urls: form.image_urls,
+      })
+      await fetchAll()
+      modalOpen.value = false
+    } catch (err) {
+      batchError.value = err?.response?.data?.message || 'មិនអាចរក្សាទុករូបភាពបានទេ'
+    } finally {
+      batchSaving.value = false
+    }
+    return
+  }
+  const ok = await update(editingId.value, form)
   if (ok) modalOpen.value = false
 }
 
@@ -89,10 +119,10 @@ async function handleDelete(photo) {
       </div>
     </div>
 
-    <AdminModal :open="modalOpen" :title="editingId ? 'កែប្រែរូបភាព' : 'បន្ថែមរូបភាពថ្មី'" @close="modalOpen = false">
+    <AdminModal :open="modalOpen" :title="editingId ? 'កែប្រែរូបភាព' : 'បន្ថែមអាល់ប៊ុមរូបភាពថ្មី'" @close="modalOpen = false">
       <form class="space-y-5" @submit.prevent="handleSubmit">
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-gray-700">ចំណងជើង</label>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700">ឈ្មោះកម្មវិធី / អាល់ប៊ុម</label>
           <input v-model="form.title" type="text" required class="w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-gold" />
         </div>
 
@@ -109,12 +139,13 @@ async function handleDelete(photo) {
           </div>
         </div>
 
-        <ImageUploader v-model="form.image_url" folder="gallery" label="រូបភាព" />
+        <GalleryUploader v-if="!editingId" v-model="form.image_urls" folder="gallery" label="ជ្រើសរើសរូបភាពកម្មវិធី" :max="0" />
+        <ImageUploader v-else v-model="form.image_url" folder="gallery" label="រូបភាព" />
 
-        <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
+        <p v-if="batchError || error" class="text-sm text-red-500">{{ batchError || error }}</p>
 
-        <button type="submit" :disabled="saving || !form.image_url" class="btn-gold w-full disabled:opacity-60">
-          {{ saving ? 'កំពុងរក្សាទុក...' : 'រក្សាទុក' }}
+        <button type="submit" :disabled="saving || batchSaving || (!editingId && !form.image_urls.length) || (editingId && !form.image_url)" class="btn-gold w-full disabled:opacity-60">
+          {{ saving || batchSaving ? 'កំពុងរក្សាទុក...' : editingId ? 'រក្សាទុក' : `រក្សាទុក ${form.image_urls.length} រូប` }}
         </button>
       </form>
     </AdminModal>

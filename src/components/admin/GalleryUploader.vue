@@ -7,7 +7,8 @@ const props = defineProps({
   modelValue: { type: Array, default: () => [] }, // array of image URLs
   folder: { type: String, required: true }, // 'members' | 'events' | 'gallery' | 'videos' | 'settings' | 'slides'
   label: { type: String, default: 'រូបភាពបន្ថែម' },
-  max: { type: Number, default: 12 }, // safety cap so a slide can't grow unbounded
+  // Set max to 0 for an album: no dashboard-visible limit is imposed.
+  max: { type: Number, default: 12 },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -22,8 +23,9 @@ async function handleFilesChange(e) {
   const files = Array.from(e.target.files || [])
   if (!files.length) return
 
-  const remaining = props.max - props.modelValue.length
-  if (remaining <= 0) {
+  const isUnlimited = !props.max || props.max < 1
+  const remaining = isUnlimited ? files.length : props.max - props.modelValue.length
+  if (!isUnlimited && remaining <= 0) {
     error.value = `អាចដាក់រូបភាពបានច្រើនបំផុត ${props.max} សន្លឹកប៉ុណ្ណោះ`
     if (fileInput.value) fileInput.value.value = ''
     return
@@ -67,7 +69,7 @@ function removeImage(index) {
   <div>
     <label class="mb-1.5 block text-sm font-medium text-gray-700">
       {{ label }}
-      <span class="font-normal text-gray-400">({{ modelValue.length }}/{{ max }})</span>
+      <span class="font-normal text-gray-400">({{ modelValue.length }}{{ max > 0 ? `/${max}` : ' រូប' }})</span>
     </label>
 
     <div class="flex flex-wrap gap-3">
@@ -91,7 +93,7 @@ function removeImage(index) {
 
       <!-- Add button -->
       <label
-        v-if="modelValue.length < max"
+        v-if="max < 1 || modelValue.length < max"
         class="flex h-20 w-20 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-black/20 text-gray-400 transition hover:border-gold hover:text-gold-dark"
       >
         <Loader2 v-if="uploading" class="h-5 w-5 animate-spin" />
